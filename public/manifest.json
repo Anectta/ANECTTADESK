@@ -1,0 +1,44 @@
+{
+  "id": "/",
+  "name": "AnecttaDESK Enterprise - Suporte e Acesso Remoto",
+  "short_name": "AnecttaDESK",
+  "description": "Software profissional autônomo de acesso remoto, controle remoto e suporte técnico para infraestrutura e endpoints.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#0f172a",
+  "background_color": "#020617",
+  "icons": [
+    {
+      "src": "/pwa-icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["utilities", "productivity", "business"],
+  "shortcuts": [
+    {
+      "name": "Painel de Controle",
+      "url": "/?tab=dashboard",
+      "description": "Visão geral e conexões ativas"
+    },
+    {
+      "name": "Meus Dispositivos",
+      "url": "/?tab=devices",
+      "description": "Lista de computadores remotos"
+    },
+    {
+      "name": "Chamados & Chat",
+      "url": "/?tab=support",
+      "description": "Fila de atendimento e suporte"
+    }
+  ]
+}

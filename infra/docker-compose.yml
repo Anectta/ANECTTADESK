@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  anecttadesk-web:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.web
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgres://anectta:anectta_secret@postgres:5432/anecttadesk
+      - SIGNALING_URL=wss://signaling.anecttadesk.local
+    depends_on:
+      - postgres
+
+  anecttadesk-signaling:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.signaling
+    restart: always
+    ports:
+      - "8443:8443"
+      - "3478:3478/udp" # STUN
+    environment:
+      - PORT=8443
+      - JWT_SECRET=anectta_super_jwt_secret_change_me
+    depends_on:
+      - postgres
+
+  anecttadesk-relay:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.relay
+    restart: always
+    ports:
+      - "4430:4430"
+      - "50000-50100:50000-50100/udp"
+    environment:
+      - RELAY_KEY=relay_shared_cluster_token
+
+  postgres:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=anectta
+      - POSTGRES_PASSWORD=anectta_secret
+      - POSTGRES_DB=anecttadesk
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ../database/migrations:/docker-entrypoint-initdb.d
+
+volumes:
+  pgdata:

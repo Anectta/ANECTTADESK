@@ -1,0 +1,6 @@
+{
+  "name": "AnecttaDESK",
+  "description": "Software profissional autônomo de acesso remoto, controle remoto e suporte técnico para infraestrutura e endpoints.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

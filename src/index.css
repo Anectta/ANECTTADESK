@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+/* ============================================================ */
+/* NOC HIGH CONTRAST DARK THEME (Network Operations Center)    */
+/* Designed for low-light control rooms, 24/7 video walls &    */
+/* maximum readability of logs, IP addresses and metrics.      */
+/* ============================================================ */
+
+.noc-theme {
+  --noc-bg-void: #000000;
+  --noc-bg-surface: #040711;
+  --noc-bg-card: #080d1a;
+  --noc-border-sharp: #1e293b;
+  --noc-border-accent: #06b6d4;
+  --noc-text-bright: #ffffff;
+  --noc-text-muted: #94a3b8;
+  --noc-phosphor-green: #00ff88;
+  --noc-electric-cyan: #00f0ff;
+  --noc-amber-alert: #ffb703;
+  --noc-hazard-red: #ff334b;
+  
+  background-color: #000000 !important;
+  color: #f8fafc !important;
+}
+
+/* Void-black backgrounds in NOC mode */
+.noc-theme .bg-slate-950 {
+  background-color: #000000 !important;
+}
+
+.noc-theme .bg-slate-900 {
+  background-color: #060913 !important;
+}
+
+.noc-theme .bg-slate-900\/80,
+.noc-theme .bg-slate-900\/90 {
+  background-color: #070c19 !important;
+}
+
+.noc-theme .bg-slate-800 {
+  background-color: #0e1626 !important;
+}
+
+.noc-theme .bg-slate-800\/60,
+.noc-theme .bg-slate-800\/80 {
+  background-color: #0b1220 !important;
+}
+
+/* High contrast sharp borders */
+.noc-theme .border-slate-800 {
+  border-color: #24324d !important;
+}
+
+.noc-theme .border-slate-700 {
+  border-color: #334769 !important;
+}
+
+/* High contrast text boost */
+.noc-theme .text-slate-400 {
+  color: #cbd5e1 !important;
+}
+
+.noc-theme .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+.noc-theme .text-slate-300 {
+  color: #f1f5f9 !important;
+}
+
+/* Enhanced contrast badges & pills */
+.noc-theme .bg-emerald-950 {
+  background-color: #022013 !important;
+  border-color: #00ff88 !important;
+  color: #00ff88 !important;
+  text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+}
+
+.noc-theme .bg-cyan-950 {
+  background-color: #021a24 !important;
+  border-color: #00f0ff !important;
+  color: #00f0ff !important;
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+}
+
+.noc-theme .bg-rose-950 {
+  background-color: #24050b !important;
+  border-color: #ff334b !important;
+  color: #ff4d64 !important;
+  text-shadow: 0 0 8px rgba(255, 51, 75, 0.4);
+}
+
+.noc-theme .bg-amber-950 {
+  background-color: #261502 !important;
+  border-color: #ffb703 !important;
+  color: #ffc300 !important;
+  text-shadow: 0 0 8px rgba(255, 183, 3, 0.4);
+}
+
+.noc-theme .bg-purple-950 {
+  background-color: #1e092c !important;
+  border-color: #c084fc !important;
+  color: #e9d5ff !important;
+  text-shadow: 0 0 8px rgba(192, 132, 252, 0.4);
+}
+
+/* High-contrast table rows hover */
+.noc-theme tr:hover {
+  background-color: #0c1424 !important;
+}
+
+/* High-contrast inputs */
+.noc-theme input,
+.noc-theme select,
+.noc-theme textarea {
+  background-color: #000000 !important;
+  border-color: #3b5278 !important;
+  color: #ffffff !important;
+}
+
+.noc-theme input:focus,
+.noc-theme select:focus,
+.noc-theme textarea:focus {
+  border-color: #00f0ff !important;
+  box-shadow: 0 0 0 1px #00f0ff, 0 0 10px rgba(0, 240, 255, 0.2) !important;
+}
+
+/* NOC Monospace Log Streamer enhancements */
+.noc-log-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  letter-spacing: 0.02em;
+}
+
+/* Subtle phosphor glow indicator for online status in NOC mode */
+.noc-theme .bg-emerald-400,
+.noc-theme .bg-emerald-500 {
+  box-shadow: 0 0 8px #00ff88;
+}
+
+.noc-theme .text-emerald-400 {
+  color: #00ff88 !important;
+}
+
+.noc-theme .text-cyan-400 {
+  color: #00f0ff !important;
+}
+

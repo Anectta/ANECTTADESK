@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="anecttaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="50%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="12" flood-color="#06b6d4" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  <!-- Background with rounded corners -->
+  <rect width="512" height="512" rx="110" fill="url(#anecttaGrad)"/>
+  <!-- Inner Border Accent -->
+  <rect x="16" y="16" width="480" height="480" rx="94" fill="none" stroke="#38bdf8" stroke-width="4" stroke-opacity="0.3"/>
+  
+  <!-- Shield Icon Graphic -->
+  <g filter="url(#glow)" transform="translate(106, 86) scale(1.25)">
+    <path d="M120 20 L210 55 C210 150 160 215 120 240 C80 215 30 150 30 55 Z" fill="#0f172a" stroke="#38bdf8" stroke-width="12" stroke-linejoin="round"/>
+    <!-- Checkmark & Remote Node inside Shield -->
+    <path d="M75 125 L105 155 L165 95" fill="none" stroke="#22d3ee" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="120" cy="195" r="10" fill="#38bdf8"/>
+    <line x1="80" y1="195" x2="160" y2="195" stroke="#38bdf8" stroke-width="4" stroke-dasharray="6,4"/>
+  </g>
+
+  <!-- Typography: ANECTTADESK -->
+  <text x="256" y="440" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="44" font-weight="900" fill="#ffffff" letter-spacing="4">ANECTTA<tspan fill="#22d3ee">DESK</tspan></text>
+</svg>
