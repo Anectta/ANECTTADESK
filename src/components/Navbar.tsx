@@ -1,23 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
-  ShieldCheck, 
-  Download, 
   ChevronDown, 
   Monitor, 
   LayoutDashboard, 
   Users, 
   History, 
-  FileText,
-  Settings,
-  Terminal,
-  Headphones,
-  Bell,
-  ShieldAlert,
-  Contrast,
-  Menu,
-  X,
+  FileText, 
+  Settings, 
+  Terminal, 
+  Headphones, 
+  ShieldAlert, 
+  Contrast, 
+  Menu, 
+  X, 
   Layers,
-  CheckCircle2
+  Download
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -45,8 +42,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenSettings,
   onlineCount,
   totalDevices,
-  operatorCount = 6,
-  scriptsCount = 6,
   alertsCount = 0,
   criticalAlertsCount = 0,
   ticketsCount = 0,
@@ -59,7 +54,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown on click outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -86,140 +80,176 @@ export const Navbar: React.FC<NavbarProps> = ({
     <header className={`sticky top-0 z-40 select-none border-b transition-colors shadow-sm ${
       isNoc 
         ? 'bg-black border-[#00f0ff]/30 text-white' 
-        : 'bg-slate-900/95 backdrop-blur-md border-slate-800 text-slate-100'
+        : 'backdrop-blur-xl bg-white/95 border-slate-200/90 text-slate-800'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 gap-2">
+        <div className="flex items-center justify-between h-20 gap-2">
           
-          {/* 1. BRAND & LOGO */}
+          {/* 1. BRAND & LOGO OFICIAL ANECTTA */}
           <div className="flex items-center space-x-3 shrink-0">
             <div 
               onClick={() => {
-                setCurrentTab('dashboard');
+                setCurrentTab('remote_support');
                 setMobileMenuOpen(false);
               }}
-              className="flex items-center space-x-2.5 cursor-pointer group"
+              className="flex items-center space-x-3 cursor-pointer group py-1"
+              title="ANECTTA - Soluções em Tecnologia & Acesso Remoto"
             >
-              <div className={`w-9 h-9 rounded-lg flex items-center justify-center shadow-md transition-transform group-hover:scale-105 ${
-                isNoc 
-                  ? 'bg-black border border-[#00f0ff] text-[#00f0ff] shadow-[0_0_10px_rgba(0,240,255,0.4)]' 
-                  : 'bg-gradient-to-br from-cyan-500 to-blue-600 text-white shadow-cyan-900/30'
-              }`}>
-                <ShieldCheck className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="flex items-center space-x-1 leading-none">
-                  <span className="font-extrabold text-lg tracking-tight text-white">ANECTTA</span>
-                  <span className="font-black text-lg tracking-wider text-cyan-400">DESK</span>
+              <img 
+                src="/assets/images/anectta-logo-transparent.png" 
+                alt="ANECTTA" 
+                className="h-10 sm:h-12 w-auto object-contain drop-shadow-[0_4px_12px_rgba(2,132,199,0.2)] group-hover:opacity-95 transition"
+              />
+              <div className="hidden sm:block border-l border-slate-200 dark:border-slate-800 pl-3">
+                <div className="flex items-center space-x-1.5 leading-none">
+                  <span className="font-extrabold text-sm tracking-tight text-slate-900 dark:text-white">DESK</span>
+                  <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-sky-100 text-sky-700 dark:bg-sky-950 dark:text-sky-300 border border-sky-300/40">
+                    Remoto
+                  </span>
                 </div>
-                <div className="flex items-center space-x-1.5 mt-0.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-[10px] tracking-wider text-slate-400 uppercase font-semibold">
-                    TLS 1.3 • {onlineCount}/{totalDevices} Online
+                <div className="flex items-center space-x-1.5 mt-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-[10px] tracking-wider text-slate-500 uppercase font-semibold font-mono">
+                    {onlineCount}/{totalDevices} Online
                   </span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* 2. PRIMARY DESKTOP NAVIGATION (Standardized Tab Bar) */}
-          <nav className="hidden lg:flex items-center space-x-1 text-xs font-semibold">
-            {/* Tab: Painel */}
+          {/* 2. PRIMARY NAVIGATION COM ÍCONES SQUIRCLE AZUIS DEGRADÊ (EXATAMENTE COMO O SITE ANECTTA) */}
+          <nav className="hidden lg:flex items-center gap-1.5 xl:gap-2.5">
+            {/* Suporte Remoto / Início */}
+            <button
+              onClick={() => setCurrentTab('remote_support')}
+              className={`flex flex-col items-center justify-center gap-1 px-2.5 py-1.5 rounded-xl transition-all duration-200 group ${
+                currentTab === 'remote_support'
+                  ? 'text-sky-600 bg-sky-50/80 dark:bg-slate-800/80 font-bold'
+                  : 'text-slate-600 hover:text-sky-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800/60'
+              }`}
+            >
+              <div className={`w-8 h-8 rounded-xl bg-gradient-to-b from-sky-400 to-sky-600 flex items-center justify-center shadow-md shadow-sky-500/20 group-hover:scale-110 group-hover:shadow-sky-500/40 transition-all duration-200 ${
+                currentTab === 'remote_support' ? 'ring-2 ring-sky-500 ring-offset-2' : ''
+              }`}>
+                <svg className="w-[18px] h-[18px] text-white" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 3L2 11h3v9a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-5h2v5a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-9h3L12 3z"/>
+                </svg>
+              </div>
+              <span className="text-[10.5px] xl:text-[11px] font-semibold tracking-wide">Suporte</span>
+            </button>
+
+            {/* Painel Geral (NOC) */}
             <button
               onClick={() => setCurrentTab('dashboard')}
-              className={`flex items-center space-x-1.5 px-3 py-2 rounded-lg transition-colors ${
+              className={`flex flex-col items-center justify-center gap-1 px-2.5 py-1.5 rounded-xl transition-all duration-200 group ${
                 currentTab === 'dashboard'
-                  ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-800/80 shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                  ? 'text-sky-600 bg-sky-50/80 dark:bg-slate-800/80 font-bold'
+                  : 'text-slate-600 hover:text-sky-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800/60'
               }`}
             >
-              <LayoutDashboard className="w-3.5 h-3.5" />
-              <span>Painel</span>
+              <div className={`w-8 h-8 rounded-xl bg-gradient-to-b from-sky-400 to-sky-600 flex items-center justify-center shadow-md shadow-sky-500/20 group-hover:scale-110 group-hover:shadow-sky-500/40 transition-all duration-200 ${
+                currentTab === 'dashboard' ? 'ring-2 ring-sky-500 ring-offset-2' : ''
+              }`}>
+                <LayoutDashboard className="w-[17px] h-[17px] text-white" />
+              </div>
+              <span className="text-[10.5px] xl:text-[11px] font-semibold tracking-wide">Painel</span>
             </button>
 
-            {/* Tab: Dispositivos */}
+            {/* Dispositivos */}
             <button
               onClick={() => setCurrentTab('devices')}
-              className={`flex items-center space-x-1.5 px-3 py-2 rounded-lg transition-colors ${
+              className={`flex flex-col items-center justify-center gap-1 px-2.5 py-1.5 rounded-xl transition-all duration-200 group relative ${
                 currentTab === 'devices'
-                  ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-800/80 shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                  ? 'text-sky-600 bg-sky-50/80 dark:bg-slate-800/80 font-bold'
+                  : 'text-slate-600 hover:text-sky-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800/60'
               }`}
             >
-              <Monitor className="w-3.5 h-3.5" />
-              <span>Dispositivos</span>
-              <span className="px-1.5 py-0.2 rounded-full text-[10px] font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700">
-                {totalDevices}
-              </span>
+              <div className={`w-8 h-8 rounded-xl bg-gradient-to-b from-sky-400 to-sky-600 flex items-center justify-center shadow-md shadow-sky-500/20 group-hover:scale-110 group-hover:shadow-sky-500/40 transition-all duration-200 ${
+                currentTab === 'devices' ? 'ring-2 ring-sky-500 ring-offset-2' : ''
+              }`}>
+                <Monitor className="w-[17px] h-[17px] text-white" />
+              </div>
+              <div className="flex items-center gap-1">
+                <span className="text-[10.5px] xl:text-[11px] font-semibold tracking-wide">Dispositivos</span>
+                <span className="text-[9px] font-mono px-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-500">
+                  {totalDevices}
+                </span>
+              </div>
             </button>
 
-            {/* Tab: Chamados & Chat */}
+            {/* Chamados & Chat */}
             <button
               onClick={() => setCurrentTab('support')}
-              className={`flex items-center space-x-1.5 px-3 py-2 rounded-lg transition-colors ${
-                currentTab === 'support'
-                  ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-800/80 shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+              className={`flex flex-col items-center justify-center gap-1 px-2.5 py-1.5 rounded-xl transition-all duration-200 group relative ${
+                currentTab === 'support' || currentTab === 'chat'
+                  ? 'text-sky-600 bg-sky-50/80 dark:bg-slate-800/80 font-bold'
+                  : 'text-slate-600 hover:text-sky-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800/60'
               }`}
             >
-              <Headphones className="w-3.5 h-3.5" />
-              <span>Chamados</span>
-              {ticketsCount > 0 && (
-                <span className="px-1.5 py-0.2 rounded-full text-[10px] font-bold bg-rose-600 text-white">
-                  {ticketsCount}
-                </span>
-              )}
+              <div className={`w-8 h-8 rounded-xl bg-gradient-to-b from-sky-400 to-sky-600 flex items-center justify-center shadow-md shadow-sky-500/20 group-hover:scale-110 group-hover:shadow-sky-500/40 transition-all duration-200 relative ${
+                currentTab === 'support' || currentTab === 'chat' ? 'ring-2 ring-sky-500 ring-offset-2' : ''
+              }`}>
+                <Headphones className="w-[17px] h-[17px] text-white" />
+                {ticketsCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-white text-[9px] font-bold flex items-center justify-center shadow-sm">
+                    {ticketsCount}
+                  </span>
+                )}
+              </div>
+              <span className="text-[10.5px] xl:text-[11px] font-semibold tracking-wide">Chamados</span>
             </button>
 
-            {/* Tab: Alertas */}
+            {/* Alertas */}
             <button
               onClick={() => setCurrentTab('alerts')}
-              className={`flex items-center space-x-1.5 px-3 py-2 rounded-lg transition-colors ${
+              className={`flex flex-col items-center justify-center gap-1 px-2.5 py-1.5 rounded-xl transition-all duration-200 group relative ${
                 currentTab === 'alerts'
-                  ? 'bg-rose-950/80 text-rose-300 border border-rose-800/80 shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                  ? 'text-rose-600 bg-rose-50/80 dark:bg-slate-800/80 font-bold'
+                  : 'text-slate-600 hover:text-rose-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800/60'
               }`}
             >
-              <ShieldAlert className="w-3.5 h-3.5 text-rose-400" />
-              <span>Alertas</span>
-              {criticalAlertsCount > 0 ? (
-                <span className="px-1.5 py-0.2 rounded-full text-[10px] font-bold bg-rose-600 text-white animate-pulse">
-                  {criticalAlertsCount}
-                </span>
-              ) : alertsCount > 0 ? (
-                <span className="px-1.5 py-0.2 rounded-full text-[10px] font-bold bg-amber-600 text-white">
-                  {alertsCount}
-                </span>
-              ) : null}
+              <div className={`w-8 h-8 rounded-xl bg-gradient-to-b from-sky-400 to-sky-600 flex items-center justify-center shadow-md shadow-sky-500/20 group-hover:scale-110 group-hover:shadow-sky-500/40 transition-all duration-200 relative ${
+                currentTab === 'alerts' ? 'ring-2 ring-rose-500 ring-offset-2' : ''
+              }`}>
+                <ShieldAlert className="w-[17px] h-[17px] text-white" />
+                {criticalAlertsCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-600 text-white text-[9px] font-bold flex items-center justify-center animate-pulse shadow-sm">
+                    {criticalAlertsCount}
+                  </span>
+                )}
+              </div>
+              <span className="text-[10.5px] xl:text-[11px] font-semibold tracking-wide">Alertas</span>
             </button>
 
-            {/* Dropdown: Gestão & Ferramentas (Automação, Histórico, Auditoria, Equipe) */}
+            {/* Dropdown: Governança & Ferramentas */}
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setShowToolsDropdown(!showToolsDropdown)}
-                className={`flex items-center space-x-1.5 px-3 py-2 rounded-lg transition-colors border ${
-                  isSecondaryTabActive
-                    ? 'bg-cyan-950 text-cyan-300 border-cyan-700 shadow-sm'
-                    : showToolsDropdown
-                    ? 'bg-slate-800 text-white border-slate-700'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-800/60 border-transparent'
+                className={`flex flex-col items-center justify-center gap-1 px-2.5 py-1.5 rounded-xl transition-all duration-200 group ${
+                  isSecondaryTabActive || showToolsDropdown
+                    ? 'text-sky-600 bg-sky-50/80 dark:bg-slate-800/80 font-bold'
+                    : 'text-slate-600 hover:text-sky-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800/60'
                 }`}
                 title="Ferramentas avançadas de infraestrutura e governança"
               >
-                <Layers className="w-3.5 h-3.5 text-cyan-400" />
-                <span>
-                  {isSecondaryTabActive && activeSecondaryItem ? activeSecondaryItem.label.split(' ')[0] : 'Ferramentas'}
-                </span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${showToolsDropdown ? 'rotate-180' : ''}`} />
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-b from-sky-400 to-sky-600 flex items-center justify-center shadow-md shadow-sky-500/20 group-hover:scale-110 group-hover:shadow-sky-500/40 transition-all duration-200">
+                  <Layers className="w-[17px] h-[17px] text-white" />
+                </div>
+                <div className="flex items-center gap-0.5">
+                  <span className="text-[10.5px] xl:text-[11px] font-semibold tracking-wide">
+                    {isSecondaryTabActive && activeSecondaryItem ? activeSecondaryItem.label.split(' ')[0] : 'Mais'}
+                  </span>
+                  <ChevronDown className={`w-3 h-3 transition-transform ${showToolsDropdown ? 'rotate-180' : ''}`} />
+                </div>
               </button>
 
               {/* Tools Dropdown Menu */}
               {showToolsDropdown && (
-                <div className={`absolute left-0 mt-2 w-64 rounded-xl border shadow-2xl py-1.5 z-50 animate-in fade-in slide-in-from-top-1 ${
-                  isNoc ? 'bg-black border-[#00f0ff]/40' : 'bg-slate-900 border-slate-800'
+                <div className={`absolute left-0 mt-2 w-64 rounded-2xl border shadow-2xl py-2 z-50 animate-in fade-in slide-in-from-top-1 ${
+                  isNoc ? 'bg-black border-[#00f0ff]/40' : 'bg-white border-slate-200'
                 }`}>
-                  <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800/80">
-                    Governança & Automação
+                  <div className="px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100 dark:border-slate-800">
+                    Governança & Automação Anectta
                   </div>
                   {secondaryTabs.map((tab) => {
                     const Icon = tab.icon;
@@ -231,13 +261,15 @@ export const Navbar: React.FC<NavbarProps> = ({
                           setCurrentTab(tab.id);
                           setShowToolsDropdown(false);
                         }}
-                        className={`w-full px-3 py-2.5 flex items-start space-x-2.5 text-left text-xs transition ${
+                        className={`w-full px-3.5 py-2.5 flex items-start space-x-3 text-left text-xs transition ${
                           isActive 
-                            ? 'bg-cyan-950/80 text-cyan-300 font-bold' 
-                            : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
+                            ? 'bg-sky-50 text-sky-700 font-bold dark:bg-slate-800 dark:text-cyan-300' 
+                            : 'text-slate-700 hover:bg-slate-50 hover:text-sky-600 dark:text-slate-300 dark:hover:bg-slate-800/80'
                         }`}
                       >
-                        <Icon className={`w-4 h-4 mt-0.5 shrink-0 ${isActive ? 'text-cyan-400' : 'text-slate-400'}`} />
+                        <div className="w-7 h-7 rounded-lg bg-sky-500/10 text-sky-600 flex items-center justify-center shrink-0 mt-0.5">
+                          <Icon className="w-4 h-4" />
+                        </div>
                         <div>
                           <div className="font-semibold leading-tight">{tab.label}</div>
                           <div className="text-[10px] text-slate-400 leading-tight mt-0.5">{tab.desc}</div>
@@ -250,119 +282,97 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           </nav>
 
-          {/* 3. RIGHT ACTION CONTROLS */}
-          <div className="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
-            {/* NOC Mode Quick Toggle Button */}
+          {/* 3. CTAs DO CABEÇALHO (PRECISO DE SUPORTE + CONTROLES) */}
+          <div className="flex items-center space-x-2 shrink-0">
+            {/* Botão de Emergência Signature Anectta */}
+            <button
+              onClick={() => setCurrentTab('remote_support')}
+              type="button"
+              className="px-3.5 sm:px-4 py-2.5 rounded-xl btn-emergency text-xs font-bold text-white flex items-center gap-2 shadow-md whitespace-nowrap active:scale-95 cursor-pointer"
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-400 pulse-emerald" />
+              <span>PRECISO DE SUPORTE</span>
+            </button>
+
+            {/* NOC Mode Quick Toggle */}
             {onToggleThemeMode && (
               <button
                 onClick={onToggleThemeMode}
-                className={`px-2 py-1.5 rounded-lg border text-xs font-mono font-bold flex items-center space-x-1.5 transition-all active:scale-95 ${
+                className={`p-2 rounded-xl border text-xs font-mono font-bold flex items-center space-x-1.5 transition-all active:scale-95 ${
                   isNoc
                     ? 'bg-black text-cyan-300 border-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.4)]'
-                    : 'bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border-slate-700/60'
+                    : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
                 }`}
                 title="Alternar Modo NOC de Alto Contraste"
               >
-                <Contrast className={`w-3.5 h-3.5 ${isNoc ? 'text-cyan-400' : 'text-slate-400'}`} />
-                <span className="hidden sm:inline">NOC</span>
-                <span
-                  className={`w-1.5 h-1.5 rounded-full ${
-                    isNoc ? 'bg-[#00ff88] shadow-[0_0_6px_#00ff88]' : 'bg-slate-500'
-                  }`}
-                />
-              </button>
-            )}
-
-            {/* Relatório Mensal em PDF */}
-            {onOpenReportModal && (
-              <button
-                onClick={onOpenReportModal}
-                className="hidden sm:flex items-center space-x-1.5 bg-slate-800/80 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700/60 px-2.5 py-1.5 rounded-lg text-xs font-semibold shadow-sm transition active:scale-95"
-                title="Exportar Relatório Mensal de SLA (PDF)"
-              >
-                <FileText className="w-3.5 h-3.5 text-cyan-400" />
-                <span className="hidden xl:inline">Relatório PDF</span>
-              </button>
-            )}
-
-            {/* Instalar como App no Desktop (PWA) */}
-            {onOpenPwaModal && (
-              <button
-                onClick={onOpenPwaModal}
-                className="hidden md:flex items-center space-x-1.5 bg-slate-800/80 hover:bg-slate-700 text-cyan-300 hover:text-cyan-200 border border-cyan-800/60 px-2.5 py-1.5 rounded-lg text-xs font-semibold shadow-sm transition active:scale-95"
-                title="Instalar AnecttaDESK como App no Computador (Ícone na Área de Trabalho)"
-              >
-                <Monitor className="w-3.5 h-3.5 text-cyan-400" />
-                <span>Instalar App</span>
+                <Contrast className={`w-4 h-4 ${isNoc ? 'text-cyan-400' : 'text-slate-600'}`} />
+                <span className="hidden xl:inline text-[11px]">NOC</span>
               </button>
             )}
 
             {/* Baixar Agent */}
             <button
               onClick={onOpenAgentModal}
-              className="flex items-center space-x-1.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-2.5 py-1.5 rounded-lg text-xs font-semibold shadow-sm transition active:scale-95 border border-cyan-400/30"
+              className="hidden sm:flex items-center space-x-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-2 rounded-xl text-xs font-semibold shadow-sm transition active:scale-95"
               title="Instalar Agente no Cliente (Windows / Linux / macOS)"
             >
-              <Download className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Agent</span>
+              <Download className="w-3.5 h-3.5 text-sky-600" />
+              <span>Agent</span>
             </button>
 
             {/* Configurações Globais */}
             {onOpenSettings && (
               <button
                 onClick={onOpenSettings}
-                className="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/60 transition active:scale-95"
+                className="p-2 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 border border-slate-200 transition active:scale-95"
                 title="Ajustes e Parâmetros do AnecttaDESK"
               >
-                <Settings className="w-3.5 h-3.5 text-slate-300" />
+                <Settings className="w-4 h-4 text-slate-600" />
               </button>
             )}
-
-            <div className="h-5 w-px bg-slate-800 hidden sm:block mx-0.5" />
-
-            {/* Operator Avatar & Badge */}
-            <div className="hidden sm:flex items-center space-x-2 bg-slate-800/50 border border-slate-700/40 rounded-lg p-1 pr-2.5">
-              <div className="w-6 h-6 rounded-md bg-cyan-900/80 border border-cyan-500/40 flex items-center justify-center text-[11px] font-bold text-cyan-200">
-                CA
-              </div>
-              <div className="text-left hidden 2xl:block">
-                <div className="text-[11px] font-semibold text-slate-200 leading-tight">Carlos Amor</div>
-                <div className="text-[9px] text-slate-400 leading-tight">Técnico N3</div>
-              </div>
-            </div>
 
             {/* Mobile Hamburger Toggle Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/60 transition"
+              className="lg:hidden p-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900"
               title="Menu de Navegação"
             >
-              {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
 
         </div>
       </div>
 
-      {/* 4. MOBILE / TABLET DRAWER (FULL RESPONSIVE MENU) */}
+      {/* 4. MOBILE DRAWER */}
       {mobileMenuOpen && (
         <div className={`lg:hidden border-t px-4 pt-3 pb-5 space-y-3 animate-in slide-in-from-top-2 ${
-          isNoc ? 'bg-black border-[#00f0ff]/30' : 'bg-slate-950 border-slate-800'
+          isNoc ? 'bg-black border-[#00f0ff]/30' : 'bg-white border-slate-200'
         }`}>
-          {/* Main Mobile Navigation */}
           <div className="grid grid-cols-2 gap-2 text-xs">
+            <button
+              onClick={() => {
+                setCurrentTab('remote_support');
+                setMobileMenuOpen(false);
+              }}
+              className="p-2.5 rounded-xl flex items-center space-x-2 border bg-sky-50 text-sky-700 font-bold border-sky-200"
+            >
+              <div className="w-6 h-6 rounded-lg bg-sky-500 text-white flex items-center justify-center">
+                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 3L2 11h3v9a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-5h2v5a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-9h3L12 3z"/>
+                </svg>
+              </div>
+              <span>Suporte Remoto</span>
+            </button>
+
             <button
               onClick={() => {
                 setCurrentTab('dashboard');
                 setMobileMenuOpen(false);
               }}
-              className={`p-2.5 rounded-lg flex items-center space-x-2 border transition ${
-                currentTab === 'dashboard'
-                  ? 'bg-cyan-950 border-cyan-700 text-cyan-300 font-bold'
-                  : 'bg-slate-900 border-slate-800 text-slate-300'
-              }`}
+              className="p-2.5 rounded-xl flex items-center space-x-2 border bg-slate-50 border-slate-200 text-slate-700"
             >
-              <LayoutDashboard className="w-4 h-4 text-cyan-400" />
+              <LayoutDashboard className="w-4 h-4 text-sky-600" />
               <span>Painel</span>
             </button>
 
@@ -371,17 +381,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                 setCurrentTab('devices');
                 setMobileMenuOpen(false);
               }}
-              className={`p-2.5 rounded-lg flex items-center justify-between border transition ${
-                currentTab === 'devices'
-                  ? 'bg-cyan-950 border-cyan-700 text-cyan-300 font-bold'
-                  : 'bg-slate-900 border-slate-800 text-slate-300'
-              }`}
+              className="p-2.5 rounded-xl flex items-center justify-between border bg-slate-50 border-slate-200 text-slate-700"
             >
               <div className="flex items-center space-x-2">
-                <Monitor className="w-4 h-4 text-cyan-400" />
+                <Monitor className="w-4 h-4 text-sky-600" />
                 <span>Dispositivos</span>
               </div>
-              <span className="px-1.5 py-0.2 rounded text-[10px] font-mono bg-slate-800 text-slate-400">
+              <span className="px-1.5 py-0.2 rounded text-[10px] font-mono bg-slate-200 text-slate-600">
                 {totalDevices}
               </span>
             </button>
@@ -391,14 +397,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                 setCurrentTab('support');
                 setMobileMenuOpen(false);
               }}
-              className={`p-2.5 rounded-lg flex items-center justify-between border transition ${
-                currentTab === 'support'
-                  ? 'bg-cyan-950 border-cyan-700 text-cyan-300 font-bold'
-                  : 'bg-slate-900 border-slate-800 text-slate-300'
-              }`}
+              className="p-2.5 rounded-xl flex items-center justify-between border bg-slate-50 border-slate-200 text-slate-700"
             >
               <div className="flex items-center space-x-2">
-                <Headphones className="w-4 h-4 text-emerald-400" />
+                <Headphones className="w-4 h-4 text-sky-600" />
                 <span>Chamados</span>
               </div>
               {ticketsCount > 0 && (
@@ -407,70 +409,17 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </span>
               )}
             </button>
+          </div>
 
+          <div className="pt-2 border-t border-slate-100 flex flex-col gap-2">
             <button
-              onClick={() => {
-                setCurrentTab('alerts');
-                setMobileMenuOpen(false);
-              }}
-              className={`p-2.5 rounded-lg flex items-center justify-between border transition ${
-                currentTab === 'alerts'
-                  ? 'bg-rose-950 border-rose-800 text-rose-300 font-bold'
-                  : 'bg-slate-900 border-slate-800 text-slate-300'
-              }`}
+              onClick={onOpenAgentModal}
+              className="w-full py-2.5 px-3 rounded-xl bg-sky-50 border border-sky-200 text-xs text-sky-700 font-bold flex items-center justify-center space-x-2"
             >
-              <div className="flex items-center space-x-2">
-                <ShieldAlert className="w-4 h-4 text-rose-400" />
-                <span>Alertas</span>
-              </div>
-              {alertsCount > 0 && (
-                <span className="px-1.5 py-0.2 rounded text-[10px] font-bold bg-amber-600 text-white">
-                  {alertsCount}
-                </span>
-              )}
+              <Download className="w-4 h-4" />
+              <span>Baixar Agente AnecttaDESK</span>
             </button>
           </div>
-
-          <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 pt-1">
-            Governança & Ferramentas
-          </div>
-
-          <div className="grid grid-cols-2 gap-2 text-xs">
-            {secondaryTabs.map((tab) => {
-              const Icon = tab.icon;
-              const isActive = currentTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => {
-                    setCurrentTab(tab.id);
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`p-2.5 rounded-lg flex items-center space-x-2 border text-left transition ${
-                    isActive
-                      ? 'bg-cyan-950 border-cyan-700 text-cyan-300 font-bold'
-                      : 'bg-slate-900 border-slate-800 text-slate-300'
-                  }`}
-                >
-                  <Icon className="w-4 h-4 text-cyan-400 shrink-0" />
-                  <span className="truncate">{tab.label.split(' ')[0]}</span>
-                </button>
-              );
-            })}
-          </div>
-
-          {onOpenReportModal && (
-            <button
-              onClick={() => {
-                onOpenReportModal();
-                setMobileMenuOpen(false);
-              }}
-              className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-300 hover:text-white flex items-center justify-center space-x-2 font-semibold"
-            >
-              <FileText className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Exportar Relatório Mensal SLA em PDF</span>
-            </button>
-          )}
         </div>
       )}
     </header>
