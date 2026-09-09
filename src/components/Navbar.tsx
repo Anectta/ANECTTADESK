@@ -284,14 +284,14 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* 3. CTAs DO CABEÇALHO (PRECISO DE SUPORTE + CONTROLES) */}
           <div className="flex items-center space-x-2 shrink-0">
-            {/* Botão de Emergência Signature Anectta */}
+            {/* Botão de Conexão Rápida / Nova Conexão */}
             <button
               onClick={() => setCurrentTab('remote_support')}
               type="button"
               className="px-3.5 sm:px-4 py-2.5 rounded-xl btn-emergency text-xs font-bold text-white flex items-center gap-2 shadow-md whitespace-nowrap active:scale-95 cursor-pointer"
             >
               <span className="w-2 h-2 rounded-full bg-emerald-400 pulse-emerald" />
-              <span>PRECISO DE SUPORTE</span>
+              <span>NOVA CONEXÃO</span>
             </button>
 
             {/* NOC Mode Quick Toggle */}
