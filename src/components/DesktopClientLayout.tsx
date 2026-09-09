@@ -278,15 +278,20 @@ export const DesktopClientLayout: React.FC<DesktopClientLayoutProps> = ({
           {/* Top Section: Logo + Navigation Items */}
           <div className="space-y-6">
             {/* AnecttaDESK Logo Header */}
-            <div className="flex items-center space-x-2.5 px-2 pt-1 pb-2">
+            <div className="flex items-center space-x-2 px-2 pt-1 pb-2">
               <img 
                 src="/assets/images/anectta-logo-transparent.png" 
                 alt="ANECTTA" 
-                className="h-9 w-auto object-contain brightness-0 invert drop-shadow-[0_2px_8px_rgba(255,255,255,0.2)]"
+                className="h-8 w-auto object-contain brightness-0 invert drop-shadow-[0_2px_8px_rgba(255,255,255,0.2)]"
               />
-              <span className="text-xs font-black tracking-wider px-1.5 py-0.5 rounded bg-white/20 text-cyan-200 border border-white/30 uppercase">
-                DESK
-              </span>
+              <div className="flex flex-col">
+                <span className="text-[11px] font-black tracking-wider px-1.5 py-0.5 rounded bg-white/20 text-cyan-200 border border-white/30 uppercase leading-none">
+                  DESK AI
+                </span>
+                <span className="text-[8px] font-mono text-cyan-300/80 uppercase tracking-widest mt-0.5 font-bold">
+                  Neural Core
+                </span>
+              </div>
             </div>
 
             {/* Main Menu Links */}

@@ -304,6 +304,91 @@ body {
   box-shadow: 0 16px 32px -4px rgba(37, 211, 102, 0.55);
 }
 
+/* ============================================================ */
+/* ANECTTA AI INTELLIGENCE SYSTEM & CYBERPUNK HUD TOKENS       */
+/* ============================================================ */
+
+.ai-glass-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(14, 165, 233, 0.18);
+  box-shadow: 0 10px 30px -10px rgba(2, 132, 199, 0.08), 0 0 1px 1px rgba(255, 255, 255, 0.8) inset;
+}
+
+.ai-glass-card-dark {
+  background: rgba(8, 15, 30, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  box-shadow: 0 10px 35px -10px rgba(0, 240, 255, 0.12), 0 0 20px rgba(0, 240, 255, 0.04) inset;
+}
+
+.ai-gradient-border {
+  position: relative;
+  border-radius: 1.25rem;
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
+  padding: 1px;
+}
+
+.ai-gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(135deg, #0284c7, #38bdf8, #818cf8, #06b6d4, #0284c7);
+  background-size: 300% 300%;
+  animation: aiBorderRotate 8s ease infinite;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+@keyframes aiBorderRotate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.ai-glow-text {
+  text-shadow: 0 0 12px rgba(14, 165, 233, 0.45);
+}
+
+.ai-pulse-orb {
+  box-shadow: 0 0 15px rgba(2, 132, 199, 0.45), 0 0 30px rgba(14, 165, 233, 0.25);
+  animation: aiPulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes aiPulse {
+  0%, 100% {
+    opacity: 0.9;
+    transform: scale(1);
+    box-shadow: 0 0 12px rgba(2, 132, 199, 0.4);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+    box-shadow: 0 0 22px rgba(14, 165, 233, 0.7), 0 0 45px rgba(56, 189, 248, 0.3);
+  }
+}
+
+.neural-wave-bg {
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 85% 20%, rgba(99, 102, 241, 0.07) 0%, transparent 45%),
+    radial-gradient(circle at 50% 80%, rgba(6, 182, 212, 0.06) 0%, transparent 50%);
+}
+
+.ai-badge {
+  background: linear-gradient(135deg, rgba(2, 132, 199, 0.12), rgba(99, 102, 241, 0.12));
+  border: 1px solid rgba(14, 165, 233, 0.35);
+  color: #0369a1;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
 /**
  * ANECTTA SPEED TELEMETRY - ESTILOS INSPIRADOS NO NPERF
  * Console de Alta PrecisÃ£o â€¢ VersÃ£o Fundo Branco / Clean Tech
