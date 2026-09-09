@@ -212,7 +212,7 @@ export const DesktopClientLayout: React.FC<DesktopClientLayoutProps> = ({
             )}
           </div>
 
-          {/* Window Mock Controls (— ▢ ✕) like TeamViewer */}
+          {/* Controles de Janela do Cliente Desktop (— ▢ ✕) */}
           <div className="hidden sm:flex items-center space-x-1 pl-2 border-l border-slate-200 dark:border-slate-800">
             <button 
               className="p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition"
@@ -268,7 +268,7 @@ export const DesktopClientLayout: React.FC<DesktopClientLayoutProps> = ({
       {/* 3. MAIN WORKSPACE WITH SIDEBAR */}
       <div className="flex-1 flex overflow-hidden relative">
         {/* ========================================================================= */}
-        {/* TEAMVIEWER-STYLE DEEP NAVY BLUE SIDEBAR */}
+        {/* ANECTTADESK DEEP NAVY BLUE CLIENT SIDEBAR */}
         {/* ========================================================================= */}
         <aside className={`w-56 shrink-0 flex flex-col justify-between p-3.5 transition-all duration-200 z-30 ${
           isNoc ? 'bg-[#030712] border-r border-cyan-500/30 text-white' : 'bg-[#0c2382] text-white shadow-xl'

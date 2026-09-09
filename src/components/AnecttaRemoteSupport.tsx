@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import { Device } from '../types';
 
-interface TeamViewerRemoteSupportProps {
+interface AnecttaRemoteSupportProps {
   localId: string;
   localPassword: string;
   onRegeneratePassword: () => void;
@@ -32,7 +32,7 @@ interface TeamViewerRemoteSupportProps {
   isNocMode?: boolean;
 }
 
-export const TeamViewerRemoteSupport: React.FC<TeamViewerRemoteSupportProps> = ({
+export const AnecttaRemoteSupport: React.FC<AnecttaRemoteSupportProps> = ({
   localId,
   localPassword,
   onRegeneratePassword,
@@ -400,7 +400,7 @@ export const TeamViewerRemoteSupport: React.FC<TeamViewerRemoteSupportProps> = (
           <span>Pronto para a conexão (conexão segura WebRTC)</span>
         </div>
 
-        {/* Promo / Resource Box (bottom right like TeamViewer screenshot) */}
+        {/* Central de Recursos Rápidos AnecttaDESK */}
         {showPromoWidget && (
           <div className="relative max-w-sm w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-lg text-slate-800 dark:text-slate-100 animate-in fade-in slide-in-from-bottom-2">
             <button

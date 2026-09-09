@@ -19,7 +19,7 @@ import { SupportChatCenter } from './components/SupportChatCenter';
 import { ManagementReportModal } from './components/ManagementReportModal';
 import { PwaInstallModal } from './components/PwaInstallModal';
 import { DesktopClientLayout } from './components/DesktopClientLayout';
-import { TeamViewerRemoteSupport } from './components/TeamViewerRemoteSupport';
+import { AnecttaRemoteSupport } from './components/AnecttaRemoteSupport';
 import { 
   INITIAL_DEVICES, 
   INITIAL_GROUPS, 
@@ -595,10 +595,10 @@ export default function App() {
       )}
 
       {/* ========================================================================= */}
-      {/* TAB: SUPORTE REMOTO (ESTILO TEAMVIEWER COM IDENTIDADE ANECTTADESK) */}
+      {/* TAB: SUPORTE REMOTO DIRETO (IDENTIDADE ANECTTADESK) */}
       {/* ========================================================================= */}
       {currentTab === 'remote_support' && (
-        <TeamViewerRemoteSupport
+        <AnecttaRemoteSupport
           localId={localId}
           localPassword={localPassword}
           onRegeneratePassword={handleRegeneratePassword}
