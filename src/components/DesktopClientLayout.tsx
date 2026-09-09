@@ -270,13 +270,23 @@ export const DesktopClientLayout: React.FC<DesktopClientLayoutProps> = ({
         {/* ========================================================================= */}
         {/* ANECTTADESK DEEP NAVY BLUE CLIENT SIDEBAR */}
         {/* ========================================================================= */}
-        <aside className={`w-56 shrink-0 flex flex-col justify-between p-3.5 transition-all duration-200 z-30 ${
-          isNoc ? 'bg-[#030712] border-r border-cyan-500/30 text-white' : 'bg-[#0c2382] text-white shadow-xl'
+        <aside className={`w-56 shrink-0 flex flex-col justify-between p-3.5 transition-all duration-200 z-30 relative overflow-hidden ${
+          isNoc 
+            ? 'bg-[#030712] border-r border-cyan-500/30 text-white' 
+            : 'bg-gradient-to-b from-[#0c244d] via-[#103166] to-[#081938] border-r border-blue-400/20 text-white shadow-xl'
         } ${
           sidebarOpen ? 'absolute inset-y-0 left-0 shadow-2xl' : 'hidden md:flex'
         }`}>
+          {/* Efeito Glow / Vidro correspondente à Tela Host PC */}
+          {!isNoc && (
+            <>
+              <div className="pointer-events-none absolute -inset-full bg-gradient-to-tr from-transparent via-white/[0.04] to-transparent rotate-25 transform-gpu" />
+              <div className="pointer-events-none absolute top-0 left-0 w-48 h-48 bg-sky-400/10 rounded-full blur-3xl" />
+            </>
+          )}
+
           {/* Top Section: Logo + Navigation Items */}
-          <div className="space-y-6">
+          <div className="space-y-6 relative z-10">
             {/* AnecttaDESK Logo Header */}
             <div className="flex items-center space-x-2 px-2 pt-1 pb-2">
               <img 
@@ -458,7 +468,7 @@ export const DesktopClientLayout: React.FC<DesktopClientLayoutProps> = ({
           </div>
 
           {/* Bottom Section: Administração, Feedback, Ajuda */}
-          <div className="pt-4 border-t border-white/10 space-y-1">
+          <div className="pt-4 border-t border-white/10 space-y-1 relative z-10">
             <button
               onClick={onOpenSettings}
               className="w-full flex items-center space-x-3 px-3 py-2 rounded-xl text-blue-100/80 hover:text-white hover:bg-white/10 text-xs font-medium transition"

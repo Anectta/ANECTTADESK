@@ -10,6 +10,7 @@ import {
   ShieldCheck, 
   Lock,
   Sparkles,
+  Brain,
   Cpu,
   Zap,
   Activity,
@@ -22,6 +23,7 @@ import {
   Layers
 } from 'lucide-react';
 import { Device } from '../types';
+import { RotatingLoopArrows } from './RotatingLoopArrows';
 
 interface AnecttaRemoteSupportProps {
   localId: string;
@@ -64,9 +66,7 @@ export const AnecttaRemoteSupport: React.FC<AnecttaRemoteSupportProps> = ({
   // AI Copilot & Neural Network telemetry states
   const [aiPromptInput, setAiPromptInput] = useState('');
   const [aiIsAnalyzing, setAiIsAnalyzing] = useState(false);
-  const [aiAnalysisResult, setAiAnalysisResult] = useState<string | null>(
-    'Rede neural Anectta ativa: Túneis P2P com taxa de compressão H.265 adaptativa e latência de 3ms.'
-  );
+  const [aiAnalysisResult, setAiAnalysisResult] = useState<string | null>(null);
   const [aiOptimizationActive, setAiOptimizationActive] = useState(true);
 
   // Live telemetry mock values
@@ -150,7 +150,7 @@ export const AnecttaRemoteSupport: React.FC<AnecttaRemoteSupportProps> = ({
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="flex items-center space-x-3 shrink-0">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 via-indigo-600 to-cyan-400 text-white flex items-center justify-center shadow-md ai-pulse-orb shrink-0">
-              <Sparkles className="w-5 h-5 animate-spin" style={{ animationDuration: '9s' }} />
+              <Brain className="w-5 h-5 text-white drop-shadow-sm" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
@@ -197,392 +197,467 @@ export const AnecttaRemoteSupport: React.FC<AnecttaRemoteSupportProps> = ({
           </form>
         </div>
 
-        {/* AI Dynamic Output Message */}
-        {aiAnalysisResult && (
-          <div className="mt-3 pt-3 border-t border-sky-100/80 dark:border-slate-800 flex items-start space-x-2.5 text-xs text-slate-700 dark:text-slate-300">
-            <Zap className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-            <span className="leading-snug">{aiAnalysisResult}</span>
-          </div>
-        )}
+
       </div>
 
-      {/* 2. MAIN DUAL CARD (Permitir Controle Remoto + Controlar Dispositivo com visual Neural) */}
-      <div className={`rounded-3xl border shadow-xl transition-all relative overflow-hidden ${
-        isNocMode 
-          ? 'bg-black border-cyan-500/40 text-slate-100' 
-          : 'bg-white/90 backdrop-blur-md border-slate-200/90 text-slate-800'
-      }`}>
-        {/* Subtle decorative mesh gradient */}
-        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-sky-500 via-indigo-500 to-cyan-400" />
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-slate-100 dark:divide-slate-800">
-          
-          {/* ========================================================================= */}
-          {/* COLUNA ESQUERDA: PERMITIR CONTROLE REMOTO (5 Colunas no Desktop) */}
-          {/* ========================================================================= */}
-          <div className="lg:col-span-5 p-6 sm:p-8 space-y-6 flex flex-col justify-between">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 rounded-xl bg-sky-50 dark:bg-sky-950/60 border border-sky-200 dark:border-sky-800 text-sky-600 dark:text-cyan-400 flex items-center justify-center">
-                    <ShieldCheck className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h2 className="text-base font-bold text-slate-900 dark:text-white tracking-tight">
-                      Permitir Acesso a Este PC
-                    </h2>
-                    <span className="text-[11px] text-slate-400 font-medium">Túnel Seguro P2P ChaCha20</span>
-                  </div>
-                </div>
-
-                <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-300/60 dark:bg-emerald-950/60 dark:text-emerald-300 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  STANDBY
+      {/* 2. SEÇÃO PRINCIPAL: TELAS À ESQUERDA + ENDPOINTS EMPILHADOS AO LADO */}
+      <div className="grid grid-cols-1 lg:grid-cols-[365px_1fr] gap-6 items-start">
+        
+        {/* COLUNA ESQUERDA: TELAS DE COMPUTADOR (HOST + P2P + REMOTO) */}
+        <div className="flex flex-col items-center space-y-1 w-full max-w-[365px]">
+        
+        {/* ========================================================================= */}
+        {/* TELA DE COMPUTADOR 1 (EM CIMA): ESTE PC • COR AZUL ROYAL / SAPPHIRE       */}
+        {/* ========================================================================= */}
+        <div className="w-full flex flex-col">
+          {/* Moldura / Chassi do Monitor (Sem o Pé) */}
+          <div className="flex-1 rounded-[20px] p-2 bg-gradient-to-b from-slate-800 via-slate-900 to-slate-950 border-2 border-slate-700/90 shadow-xl flex flex-col relative group transition-all">
+            
+            {/* Top Bezel do Monitor com Câmera / Sensor */}
+            <div className="flex items-center justify-between px-2.5 py-0.5 mb-0.5 select-none text-[9px]">
+              <div className="flex items-center space-x-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                <span className="font-mono font-bold tracking-wider text-slate-400 uppercase">
+                  DISPLAY 01 • HOST PC
                 </span>
               </div>
+              {/* Lente da Câmera / Sensor */}
+              <div className="w-2 h-2 rounded-full bg-slate-800 ring-1 ring-slate-600/60 shadow-inner flex items-center justify-center">
+                <div className="w-1 h-1 rounded-full bg-blue-400/80" />
+              </div>
+              <div className="flex items-center space-x-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="font-mono text-emerald-400 font-bold">ONLINE</span>
+              </div>
+            </div>
 
-              {/* Sub-Card: ID e Senha com visual HUD Futurista */}
-              <div className="rounded-2xl p-5 bg-slate-50/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 space-y-5 shadow-inner">
-                {/* SUA ID */}
-                <div className="space-y-1">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10.5px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                      Sua ID AnecttaDESK
-                    </span>
-                    <span className="text-[10px] text-sky-600 dark:text-cyan-400 font-mono font-semibold">
-                      ID FIXO
-                    </span>
+            {/* Tela de Vidro do Computador (COR 1: Azul Profundo / Sapphire) */}
+            <div className="flex-1 rounded-[14px] p-3.5 sm:p-4 bg-gradient-to-br from-[#0c244d] via-[#103166] to-[#081938] text-white border border-blue-400/30 relative overflow-hidden flex flex-col justify-between shadow-[inset_0_2px_15px_rgba(0,0,0,0.5)]">
+              
+              {/* Reflexo Diagonal de Vidro da Tela (Efeito Vidro Real) */}
+              <div className="pointer-events-none absolute -inset-full bg-gradient-to-tr from-transparent via-white/10 to-transparent rotate-25 transform-gpu" />
+              <div className="pointer-events-none absolute top-0 left-0 w-48 h-48 bg-sky-400/15 rounded-full blur-3xl" />
+
+              <div className="space-y-2.5 relative z-10">
+                {/* Header da Tela */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-6 h-6 rounded-lg bg-white/10 border border-white/20 text-cyan-300 flex items-center justify-center shadow-sm">
+                      <ShieldCheck className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <h2 className="text-sm font-bold text-white tracking-tight drop-shadow-sm">
+                        Minha Conexão
+                      </h2>
+                      <span className="text-[10px] text-cyan-200/80 font-medium">Túnel Seguro P2P ChaCha20</span>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between pt-0.5">
-                    <span className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-wider font-mono select-all">
-                      {localId}
-                    </span>
-                    <button
-                      onClick={handleCopyId}
-                      title="Copiar ID"
-                      className="p-2.5 rounded-xl text-slate-400 hover:text-sky-600 hover:bg-white dark:hover:bg-slate-800 transition active:scale-95 shadow-sm border border-transparent hover:border-slate-200 dark:hover:border-slate-700"
-                    >
-                      {copiedId ? (
-                        <Check className="w-5 h-5 text-emerald-500" />
-                      ) : (
-                        <Copy className="w-5 h-5" />
-                      )}
-                    </button>
-                  </div>
+
+                  <span className="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-500/50 flex items-center gap-1 shadow-sm">
+                    <span className="w-1 h-1 rounded-full bg-emerald-400 animate-pulse" />
+                    STANDBY
+                  </span>
                 </div>
 
-                {/* SENHA */}
-                <div className="space-y-1 pt-3 border-t border-slate-200/60 dark:border-slate-800">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10.5px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                      Senha Temporária Dinâmica
-                    </span>
-                    <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-mono font-semibold">
-                      OTP SEGURO
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between pt-0.5">
-                    <span className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white font-mono select-all tracking-wide">
-                      {localPassword}
-                    </span>
-                    <div className="flex items-center space-x-1.5">
+                {/* Sub-Cards: SUA ID e SENHA LADO A LADO NA HORIZONTAL */}
+                <div className="grid grid-cols-2 gap-1.5">
+                  {/* BOX 1: SUA ID */}
+                  <div className="rounded-xl p-2 bg-black/35 backdrop-blur-md border border-white/15 flex flex-col justify-between space-y-1 shadow-inner">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[8px] font-bold text-cyan-200 uppercase tracking-wider truncate">
+                        Sua ID
+                      </span>
+                      <span className="text-[7px] text-cyan-400 font-mono font-bold bg-cyan-950/60 px-1 py-0.2 rounded border border-cyan-500/30">
+                        FIXO
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between pt-0.5">
+                      <span className="text-xs sm:text-sm font-black text-white tracking-tight font-mono select-all drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
+                        {localId}
+                      </span>
                       <button
-                        onClick={onRegeneratePassword}
-                        title="Gerar nova chave aleatória"
-                        className="p-2 rounded-xl text-slate-400 hover:text-sky-600 hover:bg-white dark:hover:bg-slate-800 transition active:scale-95 shadow-sm border border-transparent hover:border-slate-200 dark:hover:border-slate-700"
+                        onClick={handleCopyId}
+                        title="Copiar ID"
+                        className="p-1 rounded-lg bg-white/10 hover:bg-white/20 text-cyan-200 hover:text-white border border-white/20 transition active:scale-95 shadow-sm"
                       >
-                        <RefreshCw className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={handleCopyPassword}
-                        title="Copiar Senha"
-                        className="p-2 rounded-xl text-slate-400 hover:text-sky-600 hover:bg-white dark:hover:bg-slate-800 transition active:scale-95 shadow-sm border border-transparent hover:border-slate-200 dark:hover:border-slate-700"
-                      >
-                        {copiedPassword ? (
-                          <Check className="w-4 h-4 text-emerald-500" />
+                        {copiedId ? (
+                          <Check className="w-3 h-3 text-emerald-400" />
                         ) : (
-                          <Copy className="w-4 h-4" />
+                          <Copy className="w-3 h-3" />
                         )}
                       </button>
                     </div>
                   </div>
-                </div>
-              </div>
 
-              {/* Checkbox: Permitir Acesso Fácil */}
-              <div className="pt-1">
-                <label className="inline-flex items-center space-x-2.5 cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    checked={easyAccessEnabled}
-                    onChange={(e) => setEasyAccessEnabled(e.target.checked)}
-                    className="w-4 h-4 text-sky-600 rounded border-slate-300 focus:ring-sky-500 focus:ring-offset-0 transition"
-                  />
-                  <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                    Acesso Não Supervisionado com MFA
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => setShowEasyAccessInfo(!showEasyAccessInfo)}
-                    className="text-slate-400 hover:text-sky-600 transition"
-                  >
-                    <Info className="w-4 h-4" />
-                  </button>
-                </label>
-
-                {showEasyAccessInfo && (
-                  <div className="mt-2 p-3 rounded-xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-900/60 text-sky-900 dark:text-sky-200 text-xs animate-in fade-in">
-                    Permite que operadores autenticados da sua organização ({userName}) conectem-se a este endpoint sem confirmação presencial de senha.
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Quick Agent Status */}
-            <div className="pt-4 text-xs text-slate-500 dark:text-slate-400 flex items-center justify-between border-t border-slate-100 dark:border-slate-800">
-              <span className="flex items-center space-x-1.5">
-                <Lock className="w-3.5 h-3.5 text-sky-600 dark:text-cyan-400" />
-                <span>Zero-Trust Architecture</span>
-              </span>
-              <button
-                onClick={onOpenAgentModal}
-                className="text-sky-600 dark:text-cyan-400 hover:underline font-bold"
-              >
-                Instalar Serviço
-              </button>
-            </div>
-          </div>
-
-          {/* ========================================================================= */}
-          {/* COLUNA DIREITA: CONTROLAR DISPOSITIVO REMOTO (7 Colunas no Desktop) */}
-          {/* ========================================================================= */}
-          <div className="lg:col-span-7 p-6 sm:p-8 space-y-6 flex flex-col justify-between">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
-                    <Monitor className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h2 className="text-base font-bold text-slate-900 dark:text-white tracking-tight">
-                      Controlar Endpoint Remoto
-                    </h2>
-                    <span className="text-[11px] text-slate-400 font-medium">Conexão instantânea via ID ou Hostname</span>
-                  </div>
-                </div>
-
-                {/* AI Adaptive Route Badge */}
-                <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-sky-50 text-sky-700 border border-sky-200 dark:bg-sky-950/60 dark:text-cyan-300 flex items-center gap-1.5">
-                  <Cpu className="w-3 h-3 text-sky-500" />
-                  P2P DIRECT
-                </span>
-              </div>
-
-              {/* Mode Selector Tabs (Controle Remoto / Arquivos / Chat) */}
-              <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl border border-slate-200/80 dark:border-slate-700 text-xs">
-                <button
-                  type="button"
-                  onClick={() => setConnectionMode('remote_control')}
-                  className={`flex-1 py-1.5 px-3 rounded-lg font-bold transition flex items-center justify-center gap-1.5 ${
-                    connectionMode === 'remote_control'
-                      ? 'bg-white dark:bg-slate-900 text-sky-600 dark:text-cyan-300 shadow-sm'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
-                  }`}
-                >
-                  <Monitor className="w-3.5 h-3.5" />
-                  <span>Controle Total</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setConnectionMode('file_transfer')}
-                  className={`flex-1 py-1.5 px-3 rounded-lg font-bold transition flex items-center justify-center gap-1.5 ${
-                    connectionMode === 'file_transfer'
-                      ? 'bg-white dark:bg-slate-900 text-sky-600 dark:text-cyan-300 shadow-sm'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
-                  }`}
-                >
-                  <Layers className="w-3.5 h-3.5" />
-                  <span>Transferir Arquivos</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setConnectionMode('direct_chat')}
-                  className={`flex-1 py-1.5 px-3 rounded-lg font-bold transition flex items-center justify-center gap-1.5 ${
-                    connectionMode === 'direct_chat'
-                      ? 'bg-white dark:bg-slate-900 text-sky-600 dark:text-cyan-300 shadow-sm'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
-                  }`}
-                >
-                  <Activity className="w-3.5 h-3.5" />
-                  <span>Chat & Suporte</span>
-                </button>
-              </div>
-
-              {/* Form Input: ID ou Hostname com Autocomplete */}
-              <form onSubmit={handleSubmitConnect} className="space-y-4">
-                <div className="relative">
-                  <div className="relative border-2 border-slate-200 dark:border-slate-700 rounded-2xl px-4 pt-3 pb-2.5 focus-within:border-sky-500 dark:focus-within:border-cyan-400 focus-within:ring-4 focus-within:ring-sky-500/10 bg-white dark:bg-slate-900 transition shadow-sm">
-                    <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                      ID AnecttaDESK ou Endereço IP do Cliente
-                    </label>
+                  {/* BOX 2: SENHA TEMPORÁRIA */}
+                  <div className="rounded-xl p-2 bg-black/35 backdrop-blur-md border border-white/15 flex flex-col justify-between space-y-1 shadow-inner">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[8px] font-bold text-cyan-200 uppercase tracking-wider truncate">
+                        Senha
+                      </span>
+                      <span className="text-[7px] text-emerald-400 font-mono font-bold bg-emerald-950/60 px-1 py-0.2 rounded border border-emerald-500/30">
+                        OTP
+                      </span>
+                    </div>
                     <div className="flex items-center justify-between pt-0.5">
-                      <input
-                        type="text"
-                        value={targetIdInput}
-                        onChange={handleIdChange}
-                        placeholder="735 006 750"
-                        className="w-full bg-transparent text-slate-900 dark:text-white font-mono text-xl font-bold focus:outline-none placeholder:text-slate-300 dark:placeholder:text-slate-600 tracking-wider"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowDeviceDropdown(!showDeviceDropdown)}
-                        className="p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-white transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
-                        title="Escolher dos seus computadores recentes"
-                      >
-                        <ChevronDown className="w-5 h-5" />
-                      </button>
+                      <span className="text-xs sm:text-sm font-bold text-white font-mono select-all tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
+                        {localPassword}
+                      </span>
+                      <div className="flex items-center space-x-0.5">
+                        <button
+                          onClick={onRegeneratePassword}
+                          title="Gerar nova chave aleatória"
+                          className="p-1 rounded-lg bg-white/10 hover:bg-white/20 text-cyan-200 hover:text-white border border-white/20 transition active:scale-95 shadow-sm"
+                        >
+                          <RefreshCw className="w-2.5 h-2.5" />
+                        </button>
+                        <button
+                          onClick={handleCopyPassword}
+                          title="Copiar Senha"
+                          className="p-1 rounded-lg bg-white/10 hover:bg-white/20 text-cyan-200 hover:text-white border border-white/20 transition active:scale-95 shadow-sm"
+                        >
+                          {copiedPassword ? (
+                            <Check className="w-2.5 h-2.5 text-emerald-400" />
+                          ) : (
+                            <Copy className="w-2.5 h-2.5" />
+                          )}
+                        </button>
+                      </div>
                     </div>
                   </div>
+                </div>
 
-                  {/* Dropdown com Dispositivos Recentes */}
-                  {showDeviceDropdown && (
-                    <div className="absolute left-0 right-0 mt-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl z-30 max-h-64 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800 animate-in fade-in zoom-in-95">
-                      <div className="p-3 text-[10px] font-bold uppercase text-slate-400 tracking-wider flex items-center justify-between">
-                        <span>Endpoints Recentes Detectados</span>
-                        <span className="text-emerald-500 font-mono">IA Cache Ativo</span>
-                      </div>
-                      {recentDevices.map((dev) => (
-                        <button
-                          key={dev.id}
-                          type="button"
-                          onClick={() => handleSelectRecentDevice(dev)}
-                          className="w-full p-3 text-left hover:bg-sky-50/70 dark:hover:bg-slate-800 transition flex items-center justify-between text-xs"
-                        >
-                          <div className="flex items-center space-x-2.5">
-                            <Monitor className="w-4 h-4 text-sky-600 dark:text-cyan-400" />
-                            <div>
-                              <div className="font-bold text-slate-900 dark:text-white">
-                                {dev.hostname}
-                              </div>
-                              <div className="text-[10px] text-slate-400">
-                                {dev.publicIp} • {dev.osType}
-                              </div>
-                            </div>
-                          </div>
-                          <span className="font-mono font-bold text-sky-600 dark:text-cyan-400 text-xs">
-                            {dev.anecttadeskId || '735 006 750'}
-                          </span>
-                        </button>
-                      ))}
+                {/* Checkbox: Permitir Acesso Fácil */}
+                <div className="pt-0.5">
+                  <label className="inline-flex items-center space-x-2 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      checked={easyAccessEnabled}
+                      onChange={(e) => setEasyAccessEnabled(e.target.checked)}
+                      className="w-3.5 h-3.5 text-cyan-500 rounded border-white/30 bg-black/40 focus:ring-cyan-400 focus:ring-offset-0 transition"
+                    />
+                    <span className="text-[11px] font-semibold text-cyan-100">
+                      Acesso Não Supervisionado com MFA
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setShowEasyAccessInfo(!showEasyAccessInfo)}
+                      className="text-cyan-300 hover:text-white transition"
+                    >
+                      <Info className="w-3.5 h-3.5" />
+                    </button>
+                  </label>
+
+                  {showEasyAccessInfo && (
+                    <div className="mt-1.5 p-2 rounded-lg bg-black/40 border border-cyan-400/40 text-cyan-100 text-[11px] animate-in fade-in">
+                      Permite que operadores autenticados da sua organização ({userName}) conectem-se a este endpoint sem confirmação presencial de senha.
                     </div>
                   )}
                 </div>
+              </div>
 
-                {/* Botão de Conexão com Estilo IA Tech */}
+              {/* Rodapé da Tela do Monitor 1 */}
+              <div className="pt-2 text-[10px] text-cyan-200/70 flex items-center justify-between border-t border-white/10 relative z-10 mt-2">
+                <span className="flex items-center space-x-1">
+                  <Lock className="w-3 h-3 text-cyan-400" />
+                  <span>Zero-Trust Architecture</span>
+                </span>
                 <button
-                  type="submit"
-                  disabled={!canConnect}
-                  className={`w-full py-4 px-6 rounded-2xl font-bold text-sm tracking-wider uppercase transition shadow-lg flex items-center justify-center space-x-2.5 cursor-pointer ${
-                    canConnect
-                      ? 'btn-emergency text-white active:scale-98 shadow-sky-500/25'
-                      : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed'
-                  }`}
+                  onClick={onOpenAgentModal}
+                  className="text-cyan-300 hover:text-white hover:underline font-bold transition"
                 >
-                  <Zap className="w-4 h-4" />
-                  <span>CONECTAR AO ENDPOINT</span>
-                  {canConnect && <ArrowRight className="w-4 h-4" />}
+                  Instalar Serviço
                 </button>
-              </form>
+              </div>
             </div>
 
-            {/* Live Telemetry Pill Mini HUD */}
-            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs">
-              <div className="flex items-center space-x-3 text-slate-500 dark:text-slate-400">
-                <span className="flex items-center gap-1 font-mono text-[11px]">
-                  <Activity className="w-3.5 h-3.5 text-emerald-500" />
-                  <span>Latência: {p2pLatency}ms</span>
-                </span>
-                <span>•</span>
-                <span className="flex items-center gap-1 font-mono text-[11px]">
-                  <Sparkles className="w-3.5 h-3.5 text-sky-500" />
-                  <span>Otimização IA: {neuralScore}%</span>
+            {/* Borda Inferior / Queixo do Monitor */}
+            <div className="flex items-center justify-between px-2.5 pt-1 text-[8px] font-mono text-slate-400 select-none">
+              <span className="tracking-widest uppercase font-bold text-slate-300">ANECTTA DISPLAY • HOST</span>
+              <div className="flex items-center space-x-1">
+                <span className="w-1 h-1 rounded-full bg-cyan-400" />
+                <span>1080p • 60Hz</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ========================================================================= */}
+        {/* CONECTOR P2P: SOMENTE AS SETAS EM FUNDO VAZADO (SEM ENCOSTAR NAS CAIXAS)  */}
+        {/* ========================================================================= */}
+        <div className="flex flex-col items-center py-0 relative z-20">
+          {/* Duas setas retas verticais com espaçamento amplo */}
+          <RotatingLoopArrows size={42} />
+        </div>
+
+        {/* ========================================================================= */}
+        {/* TELA DE COMPUTADOR 2 (EMBAIXO): ENDPOINT REMOTO • COR CYAN / TEAL (VERDE) */}
+        {/* ========================================================================= */}
+        <div className="w-full flex flex-col">
+          {/* Moldura / Chassi do Monitor (Sem o Pé) */}
+          <div className="flex-1 rounded-[20px] p-2 bg-gradient-to-b from-slate-800 via-slate-900 to-slate-950 border-2 border-slate-700/90 shadow-xl flex flex-col relative group transition-all">
+            
+            {/* Top Bezel do Monitor com Câmera / Sensor */}
+            <div className="flex items-center justify-between px-2.5 py-0.5 mb-0.5 select-none text-[9px]">
+              <div className="flex items-center space-x-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                <span className="font-mono font-bold tracking-wider text-slate-400 uppercase">
+                  DISPLAY 02 • REMOTE CLIENT
                 </span>
               </div>
-
-              <button
-                type="button"
-                onClick={onOpenPwaModal}
-                className="text-sky-600 dark:text-cyan-400 hover:underline font-bold text-xs"
-              >
-                Instalar no Windows
-              </button>
+              {/* Lente da Câmera / Sensor */}
+              <div className="w-2 h-2 rounded-full bg-slate-800 ring-1 ring-slate-600/60 shadow-inner flex items-center justify-center">
+                <div className="w-1 h-1 rounded-full bg-cyan-300/80" />
+              </div>
+              <div className="flex items-center space-x-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                <span className="font-mono text-cyan-300 font-bold">P2P DIRECT</span>
+              </div>
             </div>
-          </div>
 
-        </div>
-      </div>
+            {/* Tela de Vidro do Computador (Harmonizado com a cor Safira / Azul Profundo do Layout) */}
+            <div className="flex-1 rounded-[14px] p-3.5 sm:p-4 bg-gradient-to-br from-[#0c244d] via-[#103166] to-[#081938] text-white border border-blue-400/30 relative overflow-hidden flex flex-col justify-between shadow-[inset_0_2px_15px_rgba(0,0,0,0.5)]">
+              
+              {/* Reflexo Diagonal de Vidro da Tela */}
+              <div className="pointer-events-none absolute -inset-full bg-gradient-to-tr from-transparent via-white/10 to-transparent rotate-25 transform-gpu" />
+              <div className="pointer-events-none absolute top-0 right-0 w-48 h-48 bg-sky-400/15 rounded-full blur-3xl" />
 
-      {/* 3. QUICK CONNECT ENDPOINTS WITH AI SMART TAGS */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Cpu className="w-4 h-4 text-sky-600 dark:text-cyan-400" />
-            <h3 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider font-mono">
-              Endpoints Frequentes Sugeridos pela IA ({recentDevices.slice(0, 4).length})
-            </h3>
-          </div>
-          <span className="text-[11px] text-slate-400">1-Clique para conectar</span>
-        </div>
+              <div className="space-y-2.5 relative z-10">
+                {/* Header da Tela */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-6 h-6 rounded-lg bg-white/10 border border-white/20 text-cyan-300 flex items-center justify-center shadow-sm">
+                      <Monitor className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <h2 className="text-sm font-bold text-white tracking-tight drop-shadow-sm">
+                        Acessar PC Remotamente
+                      </h2>
+                      <span className="text-[10px] text-cyan-200/80 font-medium">Conexão instantânea via ID ou Hostname</span>
+                    </div>
+                  </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3.5">
-          {recentDevices.slice(0, 4).map((dev, idx) => (
-            <div
-              key={dev.id}
-              onClick={() => {
-                setTargetIdInput(dev.anecttadeskId || '735 006 750');
-                onConnect(dev.anecttadeskId || '735 006 750', 'supervised');
-              }}
-              className="p-4 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 hover:border-sky-500 dark:hover:border-cyan-400 shadow-sm hover:shadow-md transition cursor-pointer group relative overflow-hidden"
-            >
-              {/* IA Confidence Glow Indicator */}
-              <div className="flex items-start justify-between mb-2">
-                <div className="w-9 h-9 rounded-xl bg-sky-50 dark:bg-sky-950/80 text-sky-600 dark:text-cyan-400 flex items-center justify-center group-hover:scale-110 transition shadow-inner">
-                  <Monitor className="w-4 h-4" />
-                </div>
-                <div className="flex items-center space-x-1">
-                  <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-sky-100 text-sky-700 dark:bg-sky-950 dark:text-sky-300 font-bold">
-                    IA 99%
+                  <span className="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold bg-cyan-950/80 text-cyan-300 border border-cyan-500/50 flex items-center gap-1 shadow-sm">
+                    <Cpu className="w-3 h-3 text-cyan-400" />
+                    P2P DIRECT
                   </span>
-                  <span className={`w-2 h-2 rounded-full ${dev.status === 'online' ? 'bg-emerald-500 animate-pulse' : 'bg-slate-400'}`} />
                 </div>
+
+                {/* Mode Selector Tabs */}
+                <div className="flex items-center gap-1 p-0.5 bg-black/35 backdrop-blur-md rounded-lg border border-white/15 text-[11px]">
+                  <button
+                    type="button"
+                    onClick={() => setConnectionMode('remote_control')}
+                    className={`flex-1 py-1 px-2 rounded-md font-bold transition flex items-center justify-center gap-1 ${
+                      connectionMode === 'remote_control'
+                        ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md'
+                        : 'text-cyan-100/80 hover:text-white hover:bg-white/10'
+                    }`}
+                  >
+                    <Monitor className="w-3 h-3" />
+                    <span>Controle Total</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setConnectionMode('file_transfer')}
+                    className={`flex-1 py-1 px-2 rounded-md font-bold transition flex items-center justify-center gap-1 ${
+                      connectionMode === 'file_transfer'
+                        ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md'
+                        : 'text-cyan-100/80 hover:text-white hover:bg-white/10'
+                    }`}
+                  >
+                    <Layers className="w-3 h-3" />
+                    <span>Arquivos</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setConnectionMode('direct_chat')}
+                    className={`flex-1 py-1 px-2 rounded-md font-bold transition flex items-center justify-center gap-1 ${
+                      connectionMode === 'direct_chat'
+                        ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md'
+                        : 'text-cyan-100/80 hover:text-white hover:bg-white/10'
+                    }`}
+                  >
+                    <Activity className="w-3 h-3" />
+                    <span>Suporte</span>
+                  </button>
+                </div>
+
+                {/* Form Input e Botão de Conectar Lado a Lado na Horizontal */}
+                <form onSubmit={handleSubmitConnect} className="grid grid-cols-2 gap-1.5 items-stretch">
+                  <div className="relative">
+                    <div className="h-full relative border border-cyan-400/40 focus-within:border-cyan-300 focus-within:ring-2 focus-within:ring-cyan-400/20 bg-black/40 backdrop-blur-md rounded-xl px-2.5 pt-1.5 pb-1.5 transition shadow-inner flex flex-col justify-between min-h-[46px]">
+                      <label className="block text-[8px] font-bold text-cyan-200 uppercase tracking-wider truncate">
+                        ID / IP Remoto
+                      </label>
+                      <div className="flex items-center justify-between pt-0.5">
+                        <input
+                          type="text"
+                          value={targetIdInput}
+                          onChange={handleIdChange}
+                          placeholder="735 006 750"
+                          className="w-full bg-transparent text-white font-mono text-xs sm:text-sm font-bold focus:outline-none placeholder:text-cyan-200/30 tracking-tight drop-shadow-sm"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowDeviceDropdown(!showDeviceDropdown)}
+                          className="p-0.5 text-cyan-300 hover:text-white transition rounded hover:bg-white/10"
+                          title="Escolher dos seus computadores recentes"
+                        >
+                          <ChevronDown className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Dropdown com Dispositivos Recentes */}
+                    {showDeviceDropdown && (
+                      <div className="absolute left-0 right-0 mt-1 bg-slate-900 border border-cyan-500/40 rounded-xl shadow-2xl z-40 max-h-56 overflow-y-auto divide-y divide-slate-800 animate-in fade-in zoom-in-95">
+                        <div className="p-2 text-[9px] font-bold uppercase text-cyan-300 tracking-wider flex items-center justify-between">
+                          <span>Endpoints Recentes</span>
+                          <span className="text-emerald-400 font-mono text-[9px]">IA Ativa</span>
+                        </div>
+                        {recentDevices.map((dev) => (
+                          <button
+                            key={dev.id}
+                            type="button"
+                            onClick={() => handleSelectRecentDevice(dev)}
+                            className="w-full p-2 text-left hover:bg-cyan-950/60 transition flex items-center justify-between text-xs"
+                          >
+                            <div className="flex items-center space-x-1.5">
+                              <Monitor className="w-3 h-3 text-cyan-400" />
+                              <div>
+                                <div className="font-bold text-white text-xs truncate max-w-[120px]">
+                                  {dev.hostname}
+                                </div>
+                                <div className="text-[9px] text-cyan-200/60">
+                                  {dev.publicIp}
+                                </div>
+                              </div>
+                            </div>
+                            <span className="font-mono font-bold text-cyan-300 text-[10px]">
+                              {dev.anecttadeskId || '735 006 750'}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Botão de Conexão com Estilo IA Tech - Lado a Lado */}
+                  <button
+                    type="submit"
+                    disabled={!canConnect}
+                    className={`h-full min-h-[46px] py-1.5 px-2 rounded-xl font-extrabold text-[11px] tracking-wider uppercase transition shadow-md flex items-center justify-center space-x-1 cursor-pointer ${
+                      canConnect
+                        ? 'btn-emergency text-white active:scale-98 shadow-cyan-500/30'
+                        : 'bg-white/10 text-cyan-200/40 cursor-not-allowed border border-white/10'
+                    }`}
+                  >
+                    <Zap className="w-3 h-3 shrink-0" />
+                    <span>CONECTAR</span>
+                    {canConnect && <ArrowRight className="w-3 h-3 shrink-0" />}
+                  </button>
+                </form>
               </div>
 
-              <div className="font-bold text-xs text-slate-900 dark:text-white truncate">
-                {dev.hostname}
-              </div>
-              <div className="text-[11px] font-mono text-sky-600 dark:text-cyan-400 font-bold mt-0.5">
-                {dev.anecttadeskId || '735 006 750'}
-              </div>
-              <div className="text-[10px] text-slate-400 truncate mt-1">
-                {dev.publicIp} • {dev.osType}
+              {/* Live Telemetry Pill Mini HUD */}
+              <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[10px] text-cyan-200/80 relative z-10 mt-2">
+                <div className="flex items-center space-x-2">
+                  <span className="flex items-center gap-1 font-mono bg-black/30 px-2 py-0.5 rounded border border-white/10">
+                    <Activity className="w-3 h-3 text-emerald-400" />
+                    <span>{p2pLatency}ms</span>
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1 font-mono bg-black/30 px-2 py-0.5 rounded border border-white/10">
+                    <Sparkles className="w-3 h-3 text-cyan-300" />
+                    <span>IA {neuralScore}%</span>
+                  </span>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={onOpenPwaModal}
+                  className="text-cyan-300 hover:text-white hover:underline font-bold transition"
+                >
+                  Instalar Windows
+                </button>
               </div>
             </div>
-          ))}
+
+            {/* Borda Inferior / Queixo do Monitor */}
+            <div className="flex items-center justify-between px-2.5 pt-1 text-[8px] font-mono text-slate-400 select-none">
+              <span className="tracking-widest uppercase font-bold text-slate-300">ANECTTA DISPLAY • REMOTE</span>
+              <div className="flex items-center space-x-1">
+                <span className="w-1 h-1 rounded-full bg-emerald-400" />
+                <span>H.265 • 3ms</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* 4. BOTTOM NEURAL STATUS BAR */}
-      <div className="pt-2 border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-        <div className="flex items-center space-x-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]" />
-          <span className="font-semibold text-slate-700 dark:text-slate-300">
-            Malha Neural Anectta conectada (WebRTC DataChannel 128-bit)
-          </span>
+      {/* COLUNA DIREITA: ENDPOINTS FREQUENTES EMPILHADOS AO LADO DAS TELAS */}
+        <div className="space-y-3 w-full">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <Cpu className="w-4 h-4 text-sky-600 dark:text-cyan-400" />
+              <h3 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider font-mono">
+                Endpoints Frequentes Sugeridos pela IA ({recentDevices.slice(0, 4).length})
+              </h3>
+            </div>
+            <span className="text-[11px] text-slate-400">1-Clique para conectar</span>
+          </div>
+
+          <div className="flex flex-col space-y-2.5">
+            {recentDevices.slice(0, 4).map((dev, idx) => (
+              <div
+                key={dev.id}
+                onClick={() => {
+                  setTargetIdInput(dev.anecttadeskId || '735 006 750');
+                  onConnect(dev.anecttadeskId || '735 006 750', 'supervised');
+                }}
+                className="p-3.5 rounded-2xl border border-blue-400/30 bg-gradient-to-br from-[#0c244d] via-[#103166] to-[#081938] text-white hover:border-blue-400/60 shadow-md hover:shadow-lg hover:shadow-blue-950/50 transition-all duration-200 cursor-pointer group relative overflow-hidden flex items-center justify-between gap-3"
+              >
+                {/* Reflexo sutil de vidro / luz */}
+                <div className="pointer-events-none absolute -inset-full bg-gradient-to-tr from-transparent via-white/[0.04] to-transparent rotate-25 transform-gpu" />
+                <div className="pointer-events-none absolute top-0 left-0 w-32 h-32 bg-sky-400/10 rounded-full blur-2xl" />
+
+                {/* IA Confidence Glow Indicator */}
+                <div className="flex items-center space-x-3 min-w-0 relative z-10">
+                  <div className="w-9 h-9 rounded-xl bg-white/10 border border-white/15 text-cyan-300 flex items-center justify-center group-hover:scale-105 transition shadow-inner shrink-0">
+                    <Monitor className="w-4 h-4" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="font-bold text-xs text-white truncate">
+                      {dev.hostname}
+                    </div>
+                    <div className="text-[11px] font-mono text-cyan-300 font-bold mt-0.5">
+                      {dev.anecttadeskId || '735 006 750'}
+                    </div>
+                    <div className="text-[10px] text-cyan-200/70 truncate mt-0.5">
+                      {dev.publicIp} • {dev.osType}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-end space-y-1.5 shrink-0 relative z-10">
+                  <div className="flex items-center space-x-1">
+                    <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-black/30 border border-white/15 text-cyan-200 font-bold">
+                      IA 99%
+                    </span>
+                    <span className={`w-2 h-2 rounded-full ${dev.status === 'online' ? 'bg-emerald-400 animate-pulse' : 'bg-slate-400'}`} />
+                  </div>
+                  <span className="text-[10px] font-bold text-cyan-300 group-hover:text-white group-hover:translate-x-0.5 transition-all flex items-center gap-0.5">
+                    Conectar <ArrowRight className="w-3 h-3" />
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-        <span className="font-mono text-[11px] text-slate-400">
-          AnecttaDESK AI Edition • Build 2026.09-NEURAL
-        </span>
+
       </div>
+
 
     </div>
   );
