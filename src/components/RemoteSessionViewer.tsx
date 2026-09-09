@@ -30,7 +30,15 @@ import {
   Video,
   StopCircle,
   Play,
-  Headphones
+  Headphones,
+  Minus,
+  Square,
+  MoreHorizontal,
+  Smile,
+  Paperclip,
+  Tv,
+  LayoutGrid,
+  Copy
 } from 'lucide-react';
 import { Device, FileItem, SessionChatMessage, FileTransferLog } from '../types';
 import { INITIAL_LOCAL_FILES, INITIAL_REMOTE_FILES } from '../data/mockData';
@@ -113,6 +121,13 @@ export const RemoteSessionViewer: React.FC<RemoteSessionViewerProps> = ({
     },
   ]);
   const [newChatMessage, setNewChatMessage] = useState('');
+
+  // Floating HUD Widgets State (Reference Layout)
+  const [showToolPanel, setShowToolPanel] = useState(true);
+  const [showChatNotes, setShowChatNotes] = useState(true);
+  const [chatNotesTab, setChatNotesTab] = useState<'notes' | 'chat'>('notes');
+  const [sessionNotes, setSessionNotes] = useState('Your entries here');
+  const [chatInputText, setChatInputText] = useState('');
 
   // Interactive Remote Desktop Simulation in Canvas
   const [remoteMousePos, setRemoteMousePos] = useState({ x: 450, y: 280 });
@@ -252,281 +267,372 @@ export const RemoteSessionViewer: React.FC<RemoteSessionViewerProps> = ({
       )}
 
       {/* ============================================================ */}
-      {/* 1. TOP TOOLBAR PROFISSIONAL */}
       {/* ============================================================ */}
-      <div className="bg-slate-900 border-b border-slate-800 px-4 py-2 flex items-center justify-between shadow-lg z-30 flex-wrap gap-2">
-        {/* Machine Identity & Status */}
-        <div className="flex items-center space-x-3">
-          <div className="w-7 h-7 rounded-lg bg-cyan-950 border border-cyan-700 flex items-center justify-center text-cyan-400 font-bold">
-            <ShieldCheck className="w-4 h-4" />
+      {/* 1. FLOATING TOP BAR & QUICK DOCK (USER REFERENCE LAYOUT) */}
+      {/* ============================================================ */}
+      <div className="absolute top-4 left-6 z-40 flex flex-col items-start gap-2 select-none pointer-events-auto">
+        {/* Main Window Header Capsule */}
+        <div className="bg-[#181d26]/95 border border-slate-700/60 shadow-2xl rounded-2xl px-4 py-2.5 flex items-center space-x-4 backdrop-blur-md text-xs">
+          {/* Blue Logo Box */}
+          <div className="w-6 h-6 rounded-lg bg-blue-600/90 flex items-center justify-center text-white font-black text-xs shadow-md">
+            A
           </div>
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="font-extrabold text-sm text-white tracking-wide">
-                {device.hostname}
-              </span>
-              <span className="font-mono text-xs text-cyan-400 font-bold">
-                [{device.anecttadeskId}]
-              </span>
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-800">
-                ● Conectado
-              </span>
-            </div>
-            <div className="text-[10px] text-slate-400">
-              {device.osVersion} • Sessão Ativa: {formatDuration(elapsedSeconds)}
-            </div>
+          <span className="font-bold text-slate-100 text-sm tracking-tight">Anectta Control</span>
+          
+          {/* Status Indicator */}
+          <div className="flex items-center space-x-2.5 pl-3 border-l border-slate-700/60 font-mono text-[11px]">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse" />
+            <span className="text-slate-200 font-semibold">Conectado: {device.hostname}</span>
+            <span className="text-slate-400">Ping: {latency}ms</span>
+            <span className="text-slate-400">{fps.toFixed(0)} FPS</span>
+          </div>
+
+          {/* Window Controls (— ▢ ✕) */}
+          <div className="flex items-center space-x-1 pl-4 border-l border-slate-700/60 text-slate-400">
+            <button 
+              onClick={() => {
+                setShowToolPanel(!showToolPanel);
+                setShowChatNotes(!showChatNotes);
+              }} 
+              className="p-1 hover:text-white rounded hover:bg-slate-700/50 transition"
+              title="Minimizar / Alternar Painéis HUD"
+            >
+              <Minus className="w-3.5 h-3.5" />
+            </button>
+            <button 
+              onClick={() => setIsFullscreen(!isFullscreen)} 
+              className="p-1 hover:text-white rounded hover:bg-slate-700/50 transition"
+              title="Tela Cheia"
+            >
+              <Square className="w-3.5 h-3.5" />
+            </button>
+            <button 
+              onClick={onCloseSession} 
+              className="p-1 hover:text-rose-400 rounded hover:bg-rose-950/60 transition"
+              title="Encerrar Sessão"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
           </div>
         </div>
 
-        {/* Action Controls in Toolbar */}
-        <div className="flex items-center space-x-1 bg-slate-950/80 p-1 rounded-lg border border-slate-800">
-          {/* Monitor Switcher */}
-          <div className="flex items-center px-1.5 py-1 text-xs text-slate-300 space-x-1 border-r border-slate-800">
-            <Monitor className="w-3.5 h-3.5 text-cyan-400" />
-            <span className="text-[11px] font-semibold text-slate-400 mr-1">Monitor:</span>
-            {[1, 2].map((num) => (
-              <button
-                key={num}
-                onClick={() => setActiveMonitor(num)}
-                className={`px-2 py-0.5 rounded text-[11px] font-bold transition ${
-                  activeMonitor === num
-                    ? 'bg-cyan-600 text-white shadow'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800'
-                }`}
-              >
-                {num}
-              </button>
-            ))}
-          </div>
-
-          {/* Mouse Control */}
-          <button
-            onClick={() => setMouseEnabled(!mouseEnabled)}
-            className={`p-1.5 rounded transition ${
-              mouseEnabled ? 'bg-slate-800 text-cyan-400' : 'text-slate-500 hover:text-slate-300'
-            }`}
-            title={mouseEnabled ? 'Mouse Ativado' : 'Mouse Desativado'}
+        {/* Attached Floating Quick Action Capsule */}
+        <div className="ml-56 sm:ml-72 bg-[#181d26]/95 border border-slate-700/60 shadow-2xl rounded-2xl px-4 py-2 flex items-center space-x-3.5 backdrop-blur-md text-slate-300">
+          <button 
+            onClick={() => {
+              const next = activeMonitor === 1 ? 2 : 1;
+              setActiveMonitor(next);
+              showToast(`Alternado para Monitor ${next}`);
+            }} 
+            className="hover:text-cyan-400 transition"
+            title={`Monitor Ativo: ${activeMonitor}`}
           >
-            <MousePointer className="w-4 h-4" />
+            <Monitor className="w-4 h-4" />
           </button>
-
-          {/* Keyboard Control */}
-          <button
-            onClick={() => setKeyboardEnabled(!keyboardEnabled)}
-            className={`p-1.5 rounded transition ${
-              keyboardEnabled ? 'bg-slate-800 text-cyan-400' : 'text-slate-500 hover:text-slate-300'
-            }`}
-            title={keyboardEnabled ? 'Teclado Ativado' : 'Teclado Desativado'}
+          <button 
+            onClick={() => showToast(`Resolução: 1920x1080 @ 60 FPS (${quality.toUpperCase()})`)}
+            className="hover:text-cyan-400 transition"
+            title="Ajuste de Tela & Resolução"
           >
-            <Keyboard className="w-4 h-4" />
+            <Tv className="w-4 h-4" />
           </button>
-
-          {/* Send Ctrl+Alt+Del */}
-          <button
-            onClick={handleSendCad}
-            className="px-2 py-1 rounded text-[11px] font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition active:scale-95"
-            title="Enviar Ctrl+Alt+Del para o Windows"
+          <button 
+            onClick={() => setShowFileModal(true)}
+            className="hover:text-amber-400 transition"
+            title="Transferência de Arquivos"
           >
-            Ctrl+Alt+Del
+            <Copy className="w-4 h-4" />
           </button>
-
-          {/* Clipboard Sync */}
-          <button
+          <button 
             onClick={() => {
               setClipboardSynced(!clipboardSynced);
               showToast(clipboardSynced ? 'Clipboard bidirecional desativado' : 'Clipboard sincronizado com endpoint remoto');
             }}
-            className={`p-1.5 rounded transition ${
-              clipboardSynced ? 'bg-slate-800 text-emerald-400' : 'text-slate-500 hover:text-slate-300'
-            }`}
-            title="Sincronização de Clipboard (Local <-> Remoto)"
+            className={`hover:text-emerald-400 transition ${clipboardSynced ? 'text-emerald-400' : 'text-slate-500'}`}
+            title="Sincronizar Clipboard"
           >
             <Clipboard className="w-4 h-4" />
           </button>
-
-          {/* Transferência de Arquivos */}
-          <button
-            onClick={() => setShowFileModal(true)}
-            className={`flex items-center space-x-1 px-2 py-1 rounded text-xs font-semibold transition ${
-              showFileModal ? 'bg-cyan-900 text-cyan-200' : 'hover:bg-slate-800 text-slate-300'
-            }`}
-            title="Abrir Gerenciador de Arquivos"
+          <button 
+            onClick={() => setIsFullscreen(!isFullscreen)}
+            className="hover:text-white transition"
+            title="Alternar Tela Cheia"
           >
-            <FolderOpen className="w-3.5 h-3.5 text-amber-400" />
-            <span className="hidden md:inline">Arquivos</span>
+            <Maximize2 className="w-4 h-4" />
           </button>
-
-          {/* Chat */}
-          <button
-            onClick={() => setShowChatModal(true)}
-            className={`flex items-center space-x-1 px-2 py-1 rounded text-xs font-semibold transition relative ${
-              showChatModal ? 'bg-cyan-900 text-cyan-200' : 'hover:bg-slate-800 text-slate-300'
-            }`}
-            title="Abrir Chat com Usuário Remoto"
-          >
-            <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
-            <span className="hidden md:inline">Chat</span>
-            <span className="w-2 h-2 rounded-full bg-emerald-400 absolute top-1 right-1" />
-          </button>
-
-          {/* Canal de Voz / VoIP Bidirecional */}
-          <button
-            onClick={() => setShowVoipCall(!showVoipCall)}
-            className={`flex items-center space-x-1.5 px-2 py-1 rounded text-xs font-semibold transition ${
-              showVoipCall ? 'bg-cyan-900 text-cyan-200 shadow' : 'hover:bg-slate-800 text-slate-300'
-            }`}
-            title="Abrir Canal de Áudio / VoIP Bidirecional"
-          >
-            <Headphones className="w-3.5 h-3.5 text-cyan-400" />
-            <span className="hidden md:inline">Voz (VoIP)</span>
-          </button>
-
-          {/* Terminal Remoto */}
-          <button
-            onClick={() => setShowTerminal(true)}
-            className={`flex items-center space-x-1 px-2 py-1 rounded text-xs font-semibold transition ${
-              showTerminal ? 'bg-emerald-900 text-emerald-200' : 'hover:bg-slate-800 text-slate-300'
-            }`}
-            title="Abrir Terminal PowerShell Remoto"
-          >
-            <Terminal className="w-3.5 h-3.5 text-emerald-400" />
-            <span className="hidden lg:inline">Terminal</span>
-          </button>
-
-          {/* Gerenciador de Processos */}
-          <button
-            onClick={() => setShowProcessManager(true)}
-            className={`flex items-center space-x-1 px-2 py-1 rounded text-xs font-semibold transition ${
-              showProcessManager ? 'bg-cyan-900 text-cyan-200' : 'hover:bg-slate-800 text-slate-300'
-            }`}
-            title="Abrir Gerenciador de Tarefas Remoto"
-          >
-            <Activity className="w-3.5 h-3.5 text-cyan-400" />
-            <span className="hidden lg:inline">Processos</span>
-          </button>
-
-          {/* Anotações / Quadro Branco */}
-          <button
-            onClick={() => setShowWhiteboard(!showWhiteboard)}
-            className={`flex items-center space-x-1 px-2 py-1 rounded text-xs font-semibold transition ${
-              showWhiteboard ? 'bg-purple-900 text-purple-200' : 'hover:bg-slate-800 text-slate-300'
-            }`}
-            title="Anotar sobre a tela remota (Quadro Branco)"
-          >
-            <PenTool className="w-3.5 h-3.5 text-purple-400" />
-            <span className="hidden lg:inline">Anotar</span>
-          </button>
-
-          {/* Gravação da Sessão */}
-          <button
+          <button 
             onClick={handleToggleRecording}
-            className={`flex items-center space-x-1.5 px-2 py-1 rounded text-xs font-bold transition active:scale-95 ${
-              isRecording
-                ? 'bg-rose-950 text-rose-300 border border-rose-600 animate-pulse'
-                : 'hover:bg-slate-800 text-slate-300'
-            }`}
-            title={isRecording ? 'Parar Gravação' : 'Gravar Sessão de Vídeo'}
+            className={`transition ${isRecording ? 'text-rose-500 animate-pulse' : 'text-slate-400 hover:text-rose-400'}`}
+            title={isRecording ? `Gravando (${recordingSeconds}s)` : 'Iniciar Gravação de Sessão'}
           >
-            {isRecording ? (
-              <>
-                <StopCircle className="w-3.5 h-3.5 text-rose-400 fill-current" />
-                <span className="font-mono font-bold text-[11px] text-rose-300">
-                  REC {formatRecordingTime(recordingSeconds)}
-                </span>
-              </>
+            <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${isRecording ? 'border-rose-500 bg-rose-500/30' : 'border-rose-500'}`}>
+              <div className={`w-2 h-2 rounded-full ${isRecording ? 'bg-rose-500 animate-ping' : 'bg-rose-500'}`} />
+            </div>
+          </button>
+        </div>
+      </div>
+
+      {/* ============================================================ */}
+      {/* 2. FLOATING PAINEL DE FERRAMENTAS (TOP-RIGHT) */}
+      {/* ============================================================ */}
+      {showToolPanel && (
+        <div className="absolute top-6 right-8 z-40 w-64 bg-[#1c212c]/95 border border-slate-700/60 shadow-2xl rounded-2xl p-4 backdrop-blur-md text-slate-200 select-none animate-in fade-in slide-in-from-right-3 pointer-events-auto">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-700/50 mb-3">
+            <span className="font-semibold text-xs tracking-wide text-slate-100">Painel de Ferramentas</span>
+            <button 
+              onClick={() => setShowToolPanel(false)}
+              className="text-slate-400 hover:text-white p-1 rounded transition"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2.5">
+            <button
+              onClick={() => setShowTerminal(true)}
+              className="bg-[#252b38]/80 hover:bg-[#2d3545] border border-slate-700/50 hover:border-cyan-500/50 rounded-xl p-3 flex flex-col items-center justify-center space-y-1.5 transition group active:scale-95"
+            >
+              <Terminal className="w-5 h-5 text-cyan-400 group-hover:scale-110 transition" />
+              <span className="text-[11px] font-semibold text-slate-300">CLI / Terminal</span>
+            </button>
+
+            <button
+              onClick={() => setShowProcessManager(true)}
+              className="bg-[#252b38]/80 hover:bg-[#2d3545] border border-slate-700/50 hover:border-cyan-500/50 rounded-xl p-3 flex flex-col items-center justify-center space-y-1.5 transition group active:scale-95"
+            >
+              <Activity className="w-5 h-5 text-cyan-400 group-hover:scale-110 transition" />
+              <span className="text-[11px] font-semibold text-slate-300">Task Manager</span>
+            </button>
+
+            <button
+              onClick={() => {
+                const next = !mouseEnabled;
+                setMouseEnabled(next);
+                setKeyboardEnabled(next);
+                showToast(next ? 'Entrada remota desbloqueada' : 'Entrada remota BLOQUEADA');
+              }}
+              className={`border rounded-xl p-3 flex flex-col items-center justify-center space-y-1.5 transition group active:scale-95 ${
+                !mouseEnabled 
+                  ? 'bg-amber-950/80 border-amber-600 text-amber-200' 
+                  : 'bg-[#252b38]/80 hover:bg-[#2d3545] border-slate-700/50 text-slate-300'
+              }`}
+            >
+              <Lock className={`w-5 h-5 ${!mouseEnabled ? 'text-amber-400' : 'text-slate-400 group-hover:text-white'} transition`} />
+              <span className="text-[11px] font-semibold">Bloquear Entrada</span>
+            </button>
+
+            <button
+              onClick={handleSendCad}
+              className="bg-[#252b38]/80 hover:bg-[#2d3545] border border-slate-700/50 hover:border-emerald-500/50 rounded-xl p-3 flex flex-col items-center justify-center space-y-1.5 transition group active:scale-95"
+            >
+              <ShieldCheck className="w-5 h-5 text-emerald-400 group-hover:scale-110 transition" />
+              <span className="text-[11px] font-semibold text-slate-300">Modo Seguro</span>
+            </button>
+
+            <button
+              onClick={handleToggleRecording}
+              className={`border rounded-xl p-3 flex flex-col items-center justify-center space-y-1.5 transition group active:scale-95 ${
+                isRecording
+                  ? 'bg-rose-950/80 border-rose-600 text-rose-200 animate-pulse'
+                  : 'bg-[#252b38]/80 hover:bg-[#2d3545] border-slate-700/50 text-slate-300'
+              }`}
+            >
+              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${isRecording ? 'border-rose-400 bg-rose-500/20' : 'border-rose-500'}`}>
+                <div className={`w-2.5 h-2.5 rounded-full ${isRecording ? 'bg-rose-400' : 'bg-rose-500'}`} />
+              </div>
+              <span className="text-[11px] font-semibold">Gravação</span>
+            </button>
+
+            <button
+              onClick={() => setShowVoipCall(!showVoipCall)}
+              className={`border rounded-xl p-3 flex flex-col items-center justify-center space-y-1.5 transition group active:scale-95 ${
+                showVoipCall
+                  ? 'bg-cyan-950/80 border-cyan-500 text-cyan-200'
+                  : 'bg-[#252b38]/80 hover:bg-[#2d3545] border-slate-700/50 text-slate-300'
+              }`}
+            >
+              <Headphones className="w-5 h-5 text-cyan-400 group-hover:scale-110 transition" />
+              <span className="text-[11px] font-semibold">Voz (VoIP)</span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ============================================================ */}
+      {/* 3. FLOATING CHAT / NOTAS (BOTTOM-LEFT) */}
+      {/* ============================================================ */}
+      {showChatNotes && (
+        <div className="absolute bottom-8 left-8 z-40 w-72 bg-[#1c212c]/95 border border-slate-700/60 shadow-2xl rounded-2xl p-4 backdrop-blur-md text-slate-200 select-none animate-in fade-in slide-in-from-left-3 pointer-events-auto">
+          <div className="flex items-center justify-between pb-2.5 border-b border-slate-700/50 mb-2.5">
+            <div className="flex items-center space-x-3 text-xs font-semibold">
+              <button
+                onClick={() => setChatNotesTab('notes')}
+                className={`pb-1 border-b-2 transition ${
+                  chatNotesTab === 'notes' ? 'border-cyan-400 text-white' : 'border-transparent text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                Chat / Notas
+              </button>
+            </div>
+            <button 
+              onClick={() => setShowChatNotes(false)}
+              className="text-slate-400 hover:text-white p-0.5 rounded transition"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          <div className="text-[11px] text-slate-400 mb-2">
+            Your chat notes here
+          </div>
+
+          <div className="bg-[#12161f] border border-slate-800 rounded-xl p-2.5 mb-3 h-28 overflow-y-auto">
+            {chatNotesTab === 'notes' ? (
+              <textarea
+                value={sessionNotes}
+                onChange={(e) => setSessionNotes(e.target.value)}
+                placeholder="Your entries here"
+                className="w-full h-full bg-transparent border-none outline-none resize-none text-xs text-slate-200 placeholder-slate-500 font-sans"
+              />
             ) : (
-              <>
-                <Video className="w-3.5 h-3.5 text-rose-400" />
-                <span className="hidden lg:inline">Gravar</span>
-              </>
+              <div className="space-y-2 text-xs">
+                {chatMessages.map((m) => (
+                  <div key={m.id} className="leading-tight">
+                    <span className="font-bold text-cyan-400 text-[10px]">{m.senderName}: </span>
+                    <span className="text-slate-300">{m.message}</span>
+                  </div>
+                ))}
+              </div>
             )}
-          </button>
+          </div>
 
-          {/* Quality Mode */}
-          <select
-            value={quality}
-            onChange={(e) => setQuality(e.target.value as any)}
-            className="bg-slate-900 border border-slate-800 text-[11px] font-semibold text-slate-300 rounded px-1.5 py-1 outline-none"
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (!chatInputText.trim()) return;
+              const now = new Date().toLocaleTimeString();
+              setChatMessages((prev) => [
+                ...prev,
+                {
+                  id: `msg-${Date.now()}`,
+                  sessionId: 'ses-active',
+                  senderType: 'operator',
+                  senderName: 'Carlos Amor',
+                  message: chatInputText.trim(),
+                  timestamp: now,
+                },
+              ]);
+              showToast('Mensagem enviada com sucesso!');
+              setChatInputText('');
+            }}
+            className="bg-[#12161f] border border-slate-800 rounded-xl px-3 py-2 flex items-center space-x-2 text-xs"
           >
-            <option value="auto">Qualidade: Auto (60 FPS)</option>
-            <option value="hd">Alta Resolução (Sharp)</option>
-            <option value="fluid">Máxima Fluidez (Baixa Latência)</option>
-          </select>
+            <button type="button" onClick={() => showToast('Seletor de emojis')} className="text-slate-400 hover:text-yellow-400 transition">
+              <Smile className="w-4 h-4" />
+            </button>
+            <button type="button" onClick={() => setShowFileModal(true)} className="text-slate-400 hover:text-cyan-400 transition">
+              <Paperclip className="w-4 h-4" />
+            </button>
+            <input
+              type="text"
+              value={chatInputText}
+              onChange={(e) => setChatInputText(e.target.value)}
+              placeholder="Chat / Notas"
+              className="flex-1 bg-transparent border-none outline-none text-xs text-slate-200 placeholder-slate-500"
+            />
+            <button type="submit" className="text-cyan-400 hover:text-cyan-300 transition">
+              <Send className="w-3.5 h-3.5" />
+            </button>
+          </form>
+        </div>
+      )}
 
-          {/* Power Options (Reiniciar / Desligar / Bloquear) */}
-          <button
-            onClick={() => setShowPowerModal(true)}
-            className="p-1.5 rounded text-rose-400 hover:bg-rose-950/50 transition"
-            title="Reiniciar ou Desligar Máquina"
-          >
-            <Power className="w-4 h-4" />
-          </button>
+      {/* ============================================================ */}
+      {/* 4. FLOATING OVERLAY DOCK (BOTTOM-CENTER/RIGHT) */}
+      {/* ============================================================ */}
+      <div className="absolute bottom-8 right-12 z-40 bg-[#181d26]/95 border border-slate-700/60 shadow-2xl rounded-full px-5 py-2.5 flex items-center space-x-5 backdrop-blur-md text-slate-300 select-none pointer-events-auto">
+        <div className="flex items-center space-x-2 font-semibold text-xs text-slate-200 pr-3 border-r border-slate-700/60">
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse" />
+          <span>Overlay Dock</span>
         </div>
 
-        {/* Exit / Fullscreen */}
-        <div className="flex items-center space-x-2">
-          <button
-            onClick={onCloseSession}
-            className="flex items-center space-x-1 px-3 py-1.5 rounded-lg text-xs font-bold bg-rose-900/80 hover:bg-rose-800 text-rose-100 border border-rose-700 shadow transition active:scale-95"
-          >
-            <X className="w-3.5 h-3.5" />
-            <span>Desconectar</span>
-          </button>
-        </div>
+        <button 
+          onClick={() => {
+            const next = activeMonitor === 1 ? 2 : 1;
+            setActiveMonitor(next);
+            showToast(`Monitor alternado para Monitor ${next}`);
+          }} 
+          className="hover:text-cyan-400 transition" 
+          title="Trocar Monitor"
+        >
+          <Monitor className="w-4 h-4" />
+        </button>
+
+        <button 
+          onClick={() => showToast(`Resolução: 1920x1080 @ 60 FPS (${quality.toUpperCase()})`)} 
+          className="hover:text-cyan-400 transition" 
+          title="Configurações de Tela"
+        >
+          <Tv className="w-4 h-4" />
+        </button>
+
+        <button 
+          onClick={() => setShowFileModal(true)} 
+          className="hover:text-amber-400 transition" 
+          title="Transferência de Arquivos"
+        >
+          <Copy className="w-4 h-4" />
+        </button>
+
+        <button 
+          onClick={() => {
+            setClipboardSynced(!clipboardSynced);
+            showToast(clipboardSynced ? 'Clipboard bidirecional desativado' : 'Clipboard sincronizado');
+          }} 
+          className={`hover:text-emerald-400 transition ${clipboardSynced ? 'text-emerald-400' : 'text-slate-500'}`} 
+          title="Clipboard"
+        >
+          <Clipboard className="w-4 h-4" />
+        </button>
+
+        <button 
+          onClick={() => setShowChatNotes(!showChatNotes)} 
+          className={`hover:text-cyan-400 transition ${showChatNotes ? 'text-cyan-400' : 'text-slate-400'}`} 
+          title="Notas / Documentos"
+        >
+          <FileText className="w-4 h-4" />
+        </button>
+
+        <button 
+          onClick={() => setShowToolPanel(!showToolPanel)} 
+          className={`hover:text-cyan-400 transition ${showToolPanel ? 'text-cyan-400' : 'text-slate-400'}`} 
+          title="Painel de Ferramentas"
+        >
+          <LayoutGrid className="w-4 h-4" />
+        </button>
+
+        <button 
+          onClick={() => setIsFullscreen(!isFullscreen)} 
+          className="hover:text-white transition" 
+          title="Tela Cheia"
+        >
+          <Maximize2 className="w-4 h-4" />
+        </button>
+
+        <button 
+          onClick={() => setShowPowerModal(true)} 
+          className="hover:text-slate-100 transition" 
+          title="Mais opções (Energia / Desconectar)"
+        >
+          <MoreHorizontal className="w-4 h-4" />
+        </button>
       </div>
 
       {/* ============================================================ */}
-      {/* 2. HUD DE INDICADORES DE REDE & TRANSMISSÃO */}
-      {/* ============================================================ */}
-      <div className="bg-slate-950 border-b border-slate-800/80 px-4 py-1 text-[11px] text-slate-400 flex items-center justify-between overflow-x-auto whitespace-nowrap gap-4 font-mono">
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-1.5">
-            <span className="text-slate-500">Conexão:</span>
-            <span className="font-bold text-emerald-400">
-              {connectionMode === 'direct_p2p' ? 'Direta (P2P / WebRTC)' : 'Relay TLS (SP1-LATAM)'}
-            </span>
-          </div>
-          <div className="flex items-center space-x-1">
-            <span className="text-slate-500">Latência:</span>
-            <span className={`font-bold ${latency < 25 ? 'text-emerald-400' : 'text-amber-400'}`}>
-              {latency} ms
-            </span>
-          </div>
-          <div className="flex items-center space-x-1">
-            <span className="text-slate-500">FPS:</span>
-            <span className="font-bold text-cyan-400">{fps}</span>
-          </div>
-          <div className="flex items-center space-x-1">
-            <span className="text-slate-500">Resolução:</span>
-            <span className="text-slate-300">1920x1080 @ 60Hz</span>
-          </div>
-          <div className="flex items-center space-x-1">
-            <span className="text-slate-500">Codec:</span>
-            <span className="text-slate-300">H.264 (DXGI Desktop Duplication)</span>
-          </div>
-        </div>
-
-        <div className="flex items-center space-x-4">
-          <div>
-            <span className="text-slate-500">Enviados:</span>{' '}
-            <span className="text-slate-300">{formatBytes(bytesSent)}</span>
-          </div>
-          <div>
-            <span className="text-slate-500">Recebidos:</span>{' '}
-            <span className="text-slate-300">{formatBytes(bytesReceived)}</span>
-          </div>
-          <div className="flex items-center space-x-1 text-emerald-400 font-sans">
-            <Lock className="w-3 h-3" />
-            <span>E2EE Ativo</span>
-          </div>
-        </div>
-      </div>
-
-      {/* ============================================================ */}
-      {/* 3. ÁREA DA TELA REMOTA (REMOTE CANVAS WORKSPACE) */}
+      {/* 5. ÁREA DA TELA REMOTA (REMOTE CANVAS WORKSPACE) */}
       {/* ============================================================ */}
       <div 
-        className="flex-1 bg-slate-950 relative flex items-center justify-center p-2 sm:p-4 overflow-hidden"
+        className="flex-1 w-full h-full relative overflow-hidden bg-gradient-to-b from-[#1b222d] via-[#161a22] to-[#0f1217] flex items-center justify-center"
         onMouseMove={(e) => {
           if (!mouseEnabled) return;
           const rect = e.currentTarget.getBoundingClientRect();
@@ -536,8 +642,11 @@ export const RemoteSessionViewer: React.FC<RemoteSessionViewerProps> = ({
           });
         }}
       >
+        {/* Tech Perspective Grid Background (like in user reference image) */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0c_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0c_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none opacity-40" />
+
         {/* Remote Screen Frame */}
-        <div className="w-full max-w-6xl aspect-[16/9] bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 rounded-lg shadow-2xl border-2 border-slate-800 relative overflow-hidden flex flex-col justify-between select-none">
+        <div className="w-full h-full relative overflow-hidden flex flex-col justify-between select-none">
           {/* Whiteboard Overlay if active */}
           {showWhiteboard && <WhiteboardOverlay onClose={() => setShowWhiteboard(false)} />}
           
@@ -645,12 +754,12 @@ export const RemoteSessionViewer: React.FC<RemoteSessionViewerProps> = ({
               </div>
             )}
 
-            {/* Simulated Remote Cursor */}
+            {/* Simulated Remote Cursor (Lime/Emerald Green matching reference) */}
             <div 
-              className="absolute pointer-events-none transition-transform duration-75 text-cyan-400 drop-shadow-md z-40"
+              className="absolute pointer-events-none transition-transform duration-75 text-emerald-400 drop-shadow-[0_2px_12px_rgba(16,185,129,0.7)] z-40"
               style={{ left: `${remoteMousePos.x}px`, top: `${remoteMousePos.y}px` }}
             >
-              <MousePointer className="w-4 h-4 fill-cyan-400 text-slate-900 -rotate-45" />
+              <MousePointer className="w-5 h-5 fill-emerald-400 text-slate-950 -rotate-45" />
             </div>
           </div>
 
