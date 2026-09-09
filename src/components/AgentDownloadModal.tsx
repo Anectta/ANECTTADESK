@@ -29,7 +29,7 @@ export const AgentDownloadModal: React.FC<AgentDownloadModalProps> = ({ onClose 
       let content = '';
 
       if (platform === 'windows') {
-        const originUrl = typeof window !== 'undefined' ? window.location.origin : 'https://ais-dev-lmqimukulkdhwi3nxdtkg3-660100840056.us-west2.run.app';
+        const originUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
         filename = 'AnecttaDESK-Agent-Setup.bat';
         content = `@echo off
 setlocal EnableExtensions
@@ -65,7 +65,7 @@ set "SHORTCUT_PATH=%DESKTOP_DIR%\\AnecttaDESK - Suporte Remoto.url"
   echo [InternetShortcut]
   echo URL=${originUrl}
   echo IconIndex=0
-  echo IconFile=%SystemRoot%\\System32\\mstsc.exe
+  echo IconFile=%SystemRoot%\\System32\\shell32.dll,15
 ) > "%SHORTCUT_PATH%"
 
 echo.

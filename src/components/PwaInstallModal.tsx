@@ -21,7 +21,7 @@ export const PwaInstallModal: React.FC<PwaInstallModalProps> = ({
   if (!isOpen) return null;
 
   // Use dynamic current active URL (window.location.origin) so it never 404s
-  const currentOrigin = typeof window !== 'undefined' ? window.location.origin : 'https://ais-dev-lmqimukulkdhwi3nxdtkg3-660100840056.us-west2.run.app';
+  const currentOrigin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
 
   const handleDownloadShortcutBat = () => {
     const batContent = `@echo off
@@ -46,7 +46,7 @@ set "SHORTCUT_PATH=%DESKTOP_DIR%\\AnecttaDESK.url"
   echo [InternetShortcut]
   echo URL=${currentOrigin}
   echo IconIndex=0
-  echo IconFile=%SystemRoot%\\System32\\mstsc.exe
+  echo IconFile=%SystemRoot%\\System32\\shell32.dll,15
 ) > "%SHORTCUT_PATH%"
 
 echo [OK] Atalho criado com sucesso em:
