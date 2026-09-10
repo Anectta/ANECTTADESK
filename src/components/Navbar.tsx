@@ -33,6 +33,7 @@ interface NavbarProps {
   onToggleThemeMode?: () => void;
   onOpenReportModal?: () => void;
   onOpenPwaModal?: () => void;
+  isSupabaseActive?: boolean;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -49,6 +50,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onToggleThemeMode,
   onOpenReportModal,
   onOpenPwaModal,
+  isSupabaseActive = false,
 }) => {
   const [showToolsDropdown, setShowToolsDropdown] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -107,11 +109,25 @@ export const Navbar: React.FC<NavbarProps> = ({
                     Remoto
                   </span>
                 </div>
-                <div className="flex items-center space-x-1.5 mt-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-[10px] tracking-wider text-slate-500 uppercase font-semibold font-mono">
-                    {onlineCount}/{totalDevices} Online
-                  </span>
+                <div className="flex items-center space-x-2 mt-1">
+                  <div className="flex items-center space-x-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-[10px] tracking-wider text-slate-500 uppercase font-semibold font-mono">
+                      {onlineCount}/{totalDevices} Online
+                    </span>
+                  </div>
+                  <span className="text-slate-300 dark:text-slate-700 text-[10px]">•</span>
+                  {isSupabaseActive ? (
+                    <span className="inline-flex items-center gap-1 text-[9.5px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-1.5 py-0.2 rounded border border-emerald-300/40" title="Conectado ao Supabase PostgreSQL">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                      Supabase
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 text-[9.5px] font-bold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 px-1.5 py-0.2 rounded border border-amber-300/40" title="Operando com dados locais de demonstração. Configure VITE_SUPABASE_URL para conectar.">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                      Demo
+                    </span>
+                  )}
                 </div>
               </div>
             </div>

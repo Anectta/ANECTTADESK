@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS devices (
     os_version VARCHAR(100),
     agent_version VARCHAR(50) NOT NULL,
     status VARCHAR(50) NOT NULL DEFAULT 'offline', -- online, offline, busy, connecting, maintenance, disabled
-    current_user VARCHAR(255),
+    "current_user" VARCHAR(255),
     public_ip INET,
     local_ip INET,
     last_heartbeat TIMESTAMPTZ,

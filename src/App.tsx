@@ -51,6 +51,9 @@ import {
   AlertType
 } from './types';
 import { AlertCircle, CheckCircle2 } from 'lucide-react';
+import { isSupabaseConfigured } from './lib/supabase';
+import { deviceService } from './services/deviceService';
+import { authService } from './services/authService';
 
 export default function App() {
   const [currentTab, setCurrentTab] = useState('remote_support');
@@ -81,6 +84,54 @@ export default function App() {
   const [tickets, setTickets] = useState<SupportTicket[]>(INITIAL_TICKETS);
   const [chatMessages, setChatMessages] = useState<TechChatMessage[]>(INITIAL_CHAT_MESSAGES);
   const [activePlayingRecording, setActivePlayingRecording] = useState<RecordedSession | null>(null);
+
+  // Supabase Integration & Operator Session State
+  const isSupabaseActive = isSupabaseConfigured();
+  const [currentUser, setCurrentUser] = useState<{ name: string; email: string }>({
+    name: 'Carlos Amor',
+    email: 'carlosamorfbr@gmail.com',
+  });
+
+  // Carrega dispositivos e operador autenticado do Supabase caso configurado
+  React.useEffect(() => {
+    async function initSupabaseData() {
+      if (isSupabaseActive) {
+        const { devices: remoteDevices } = await deviceService.fetchDevices();
+        if (remoteDevices && remoteDevices.length > 0) {
+          setDevices(remoteDevices);
+        }
+
+        const operator = await authService.getCurrentOperator();
+        if (operator) {
+          setCurrentUser({
+            name: operator.name,
+            email: operator.email,
+          });
+        }
+      }
+    }
+
+    initSupabaseData();
+
+    // Inscreve-se nas atualizações em tempo real (Supabase Realtime)
+    if (isSupabaseActive) {
+      const subscription = deviceService.subscribeToChanges((updatedDevice) => {
+        setDevices((prev) => {
+          const index = prev.findIndex((d) => d.id === updatedDevice.id);
+          if (index >= 0) {
+            const next = [...prev];
+            next[index] = updatedDevice;
+            return next;
+          }
+          return [updatedDevice, ...prev];
+        });
+      });
+
+      return () => {
+        subscription.unsubscribe();
+      };
+    }
+  }, [isSupabaseActive]);
 
   // System Theme State: Standard Dark vs. NOC High Contrast (OLED Void & Phosphor)
   const [themeMode, setThemeMode] = useState<'standard_dark' | 'noc_high_contrast'>(() => {
@@ -563,8 +614,9 @@ export default function App() {
       activeAlerts={alerts.filter((a) => !a.isResolved).length}
       devices={devices}
       onQuickConnectDevice={(dev) => handleInitiateConnection(dev, 'supervised')}
-      userName="Carlos Amor"
-      userEmail="carlosamorfbr@gmail.com"
+      userName={currentUser.name}
+      userEmail={currentUser.email}
+      isSupabaseActive={isSupabaseActive}
     >
       {/* Global Alert Notification */}
       {bannerAlert && (

@@ -44,6 +44,7 @@ interface DesktopClientLayoutProps {
   activeAlerts?: number;
   onQuickConnectDevice?: (device: Device) => void;
   devices: Device[];
+  isSupabaseActive?: boolean;
 }
 
 export const DesktopClientLayout: React.FC<DesktopClientLayoutProps> = ({
@@ -64,6 +65,7 @@ export const DesktopClientLayout: React.FC<DesktopClientLayoutProps> = ({
   activeAlerts = 0,
   onQuickConnectDevice,
   devices,
+  isSupabaseActive = false,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
@@ -246,6 +248,18 @@ export const DesktopClientLayout: React.FC<DesktopClientLayoutProps> = ({
           <span>Licença Enterprise (AnecttaDESK Corp)</span>
           <span className="text-slate-400">•</span>
           <span className="font-semibold text-slate-700 dark:text-slate-300">{userName}</span>
+          <span className="text-slate-400">•</span>
+          {isSupabaseActive ? (
+            <span className="inline-flex items-center gap-1 font-bold text-emerald-600 dark:text-emerald-400">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              Supabase PostgreSQL (Realtime)
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1 font-medium text-amber-600 dark:text-amber-400" title="Para conectar ao banco de dados real, adicione VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY no arquivo .env">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+              Demonstração Local (Mocks)
+            </span>
+          )}
         </div>
         <div className="flex items-center space-x-3">
           <button
